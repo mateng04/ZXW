@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/popWindow"
+    android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_corner_up">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="产品参数"
+                    android:textColor="#000000"
+                    android:textSize="16sp"/>
+
+                <ListView
+                    android:id="@+id/lv_pop_sd_cs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="55dp"
+                    android:divider="@null"
+                    android:scrollbars="none">
+
+                </ListView>
+
+                <TextView
+                    android:id="@+id/tv_pp_shop_details_sure"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:text="完成"
+                    android:textColor="@color/white"
+                    android:background="@color/red"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"/>
+        </RelativeLayout>
+
+</LinearLayout>

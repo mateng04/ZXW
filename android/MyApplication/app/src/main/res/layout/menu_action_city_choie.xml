@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_city_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:maxWidth="200dp"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:gravity="center"
+    android:text="切换城市"
+    android:drawableRight="@mipmap/pulldown"
+    android:textColor="@color/black"
+    android:clickable="true"
+    android:textSize="14sp"
+    android:background="@drawable/list_view_item_bg"/>

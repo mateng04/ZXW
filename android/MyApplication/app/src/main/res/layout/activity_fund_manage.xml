@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/blue">
+
+        <Button
+            android:id="@+id/fund_manage_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="资金管理"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+    <com.mobile.zxw.myapplication.ui.widget.XListView
+        android:id="@+id/lv_fund_manage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
+        android:cacheColorHint="#00000000"
+        android:footerDividersEnabled="false"
+        android:scrollbars="none" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:background="@color/blue">
+
+        <TextView
+            android:id="@+id/tv_fund_manage_kyye"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="可用余额:"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_fund_manage_yue"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/tv_fund_manage_kyye"
+            android:layout_marginLeft="10dp"
+            android:text="#0"
+            android:textColor="@color/red" />
+
+
+
+        <TextView
+            android:id="@+id/tv_fund_manage_zxcz"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="16dp"
+            android:text="在线充值"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_fund_manage_sqtx"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:layout_toLeftOf="@+id/tv_fund_manage_zxcz"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="申请提现"/>
+
+    </RelativeLayout>
+</RelativeLayout>

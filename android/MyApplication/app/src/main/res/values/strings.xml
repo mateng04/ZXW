@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name" translatable="false">正信网</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_main2" translatable="false">Main2Activity</string>
+
+    <string name="home_page_zp" translatable="false">招聘</string>
+    <string name="home_page_qzzp" translatable="false">全职招聘</string>
+    <string name="home_page_jzzp" translatable="false">兼职招聘</string>
+
+    <string name="home_page_qj" translatable="false">求职</string>
+    <string name="home_page_qzjl" translatable="false">全职简历</string>
+    <string name="home_page_jzjl" translatable="false">兼职简历</string>
+
+    <string name="home_page_sc" translatable="false">商城</string>
+
+    <string name="home_page_wszq" translatable="false">微商专区</string>
+
+    <string name="hyzx_yhm" translatable="false">王权</string>
+    <string name="hyzx_pthy" translatable="false">普通会员</string>
+    <string name="hyzx_vip" translatable="false">VIP会员</string>
+    <string name="hyzx_ktviphy" translatable="false">开通VIP会员></string>
+
+    <string name="hyzx_item_grrz" translatable="false">个人认证</string>
+    <string name="hyzx_item_sjrz" translatable="false">手机认证</string>
+
+    <string name="hyzx_item_zpgl" translatable="false">招聘管理</string>
+    <string name="hyzx_item_qzgl" translatable="false">求职管理</string>
+    <string name="hyzx_item_scgl" translatable="false">商城管理</string>
+    <string name="hyzx_item_ddgl" translatable="false">订单管理</string>
+    <string name="hyzx_item_zjgl" translatable="false">资金管理</string>
+    <string name="hyzx_item_gggl" translatable="false">广告管理</string>
+    <string name="hyzx_item_xxzx" translatable="false">消息中心</string>
+
+    <string name="hyzx_item_zhye" translatable="false">账户余额：</string>
+    <string name="hyzx_item_zxfje" translatable="false">消费金额：</string>
+    <string name="hyzx_item_y" translatable="false">元</string>
+    <string name="hyzx_item_cz" translatable="false">充值</string>
+    <string name="hyzx_item_mx" translatable="false">明细</string>
+
+    <string name="hyzx_item_gywm" translatable="false">关于我们</string>
+    <string name="hyzx_item_kf" translatable="false">客服：</string>
+    <string name="hyzx_item_tc" translatable="false">退出</string>
+
+
+    <string name="header_hint_refresh_normal" translatable="false">Pull to refresh</string>
+    <string name="header_hint_refresh_ready" translatable="false">松开可以刷新</string>
+    <string name="header_hint_refresh_loading" translatable="false">刷新中&#8230;</string>
+    <string name="header_hint_refresh_time" translatable="false">上次刷新时间：</string>
+    <string name="footer_hint_load_normal" translatable="false">加载更多</string>
+    <string name="footer_hint_load_ready" translatable="false">松开载入更多</string>
+    <string name="footer_hint_load_complete" translatable="false">已全部加载</string>
+
+    <string name="shop_details_zyts" translatable="false">商城交易模式是线上交易，如果买家与卖家通过QQ或微信沟通私下交易，本站不提供退换货功能及服务，交易风险请自行考虑、承担。客服电话：</string>
+
+
+    <string name="online_recharge_prompt" translatable="false">
+1.充值成功后，余额可能存在延迟现象，一般1到5分钟内会到账，如
+有问题，请咨询客服；\n
+2.充值金额输入值必须是不小于10且不大于50000的正整数；\n
+3.您只能用储蓄卡在线支付充值金额的钱，如遇到任何支付问题可以
+查看在线支付帮助；\n
+4.充值完成后，您可以进入账户充值记录页面进行查看余额充值状态。</string>
+    <string name="vip_member_prompt" translatable="false">
+
+        \n1.开通会员属自愿行为，开通后不可撤销;
+        \n2.开通会员后将享受本站所有VIP会员特权。
+
+    </string>
+
+    <string name="set_top_tishi" translatable="false">
+
+        1、信息置顶属自愿行为，固顶后不可撤销;\n
+        2、信息置顶会从账户扣费，如果账户余额不足请提前充值。
+    </string>
+    <string name="ggfb_tishi" translatable="false">
+
+          \n1、广告属自愿行为，发布后不可撤销;\n2、广告发布会从账户扣费，如果账户余额不足请提前充值。
+    </string>
+
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@drawable/list_view_item_bg">
+    <ImageView
+        android:id="@+id/home_sc_item_pic"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:layout_height="120dp" />
+    <TextView
+        android:id="@+id/home_sc_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text=""
+        android:textColor="#000000"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/home_sc_item_fh"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:text="¥"
+            android:textSize="12sp"
+            android:textColor="#ff0000"/>
+
+        <TextView
+            android:id="@+id/home_sc_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:layout_toEndOf="@+id/home_sc_item_fh"
+            android:layout_marginLeft="1dp"
+            android:text="125"
+            android:textColor="#ff0000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/home_sc_item_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:background="#19D4D6"
+            android:text="立即购买"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</LinearLayout>

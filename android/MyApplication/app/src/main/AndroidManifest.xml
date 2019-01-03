@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mobile.zxw.myapplication">
+
+    <!-- if you want to load images from the internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- if you want to load images from a file OR from the internet -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <application
+        android:name=".APP"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoDisplay"/>
+
+        <activity
+            android:name=".activity.GuideActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.HomePageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.RecruitPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.JobPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.MallPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.WechatBusinessPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.CityChoiceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ShopScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ShopCarActivity"
+        android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ShopEvaluateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ShopDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.RecruitDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.LoginPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ForgetPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.OrderActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.MessageCenterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.MessageContentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.OnlineRechargeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.RechargeDetailedActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.AdvertisingContentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.WXShopDetailedActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.FundManageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.VIPMemberActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.PersonalActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ModifyPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ModifyPhoneActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.AdvertisingManageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.OrderManageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.OrderBuyerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.OrderSellerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.OrderDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.AdvertisingReleaseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.RecruitManageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ReleaseRecruitActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.JobManageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ApplyMoneyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.PresentRecordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ConsumptionDetailedActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.MallManageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.RecruitContentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ReleaseMallActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.lzy.imagepicker.ui.ImagePreviewDelActivity"
+            android:theme="@style/ImagePickerThemeFullScreen"/>
+        <activity
+            android:name=".activity.JobPageDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SetTopPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ShopYaJinActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ModifyMallActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ModifyWSMallActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name=".activity.H5PayDemoActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+
+
+        <!-- 新浪分享 -->
+        <activity
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"
+            >
+        </activity>
+        <activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            >
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:launchMode="singleTask"
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 微信分享 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- QQ分享 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent101512944" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+    </application>
+
+
+</manifest>

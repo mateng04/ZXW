@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_zpgl"
+            android:icon="@mipmap/ic_nav_zpgl"
+            android:title="@string/hyzx_item_zpgl" />
+        <item
+            android:id="@+id/nav_qzgl"
+            android:icon="@mipmap/ic_nav_qzgl"
+            android:title="@string/hyzx_item_qzgl" />
+        <item
+            android:id="@+id/nav_scgl"
+            android:icon="@mipmap/ic_nav_scgl"
+            android:title="@string/hyzx_item_scgl" />
+        <item
+            android:id="@+id/nav_ddgl"
+            android:icon="@mipmap/ic_nav_ddgl"
+            android:title="@string/hyzx_item_ddgl" />
+        <item
+            android:id="@+id/nav_zjgl"
+            android:icon="@mipmap/ic_nav_zjgl"
+            android:title="@string/hyzx_item_zjgl" />
+        <item
+            android:id="@+id/nav_gggl"
+            android:icon="@mipmap/ic_nav_gggl"
+            android:title="@string/hyzx_item_gggl" />
+        <item
+            android:id="@+id/nav_xxzx"
+            android:icon="@mipmap/ic_nav_xxzx"
+            android:title="@string/hyzx_item_xxzx" />
+
+    </group>
+
+    <group android:id="@+id/group_three" >
+        <item
+            android:id="@+id/menu_quit"
+            android:title="退出"/>
+    </group>
+</menu>
