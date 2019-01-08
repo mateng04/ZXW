@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobile.zxw.myapplication.R;
@@ -60,6 +62,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener, IListener,  HomeSCAdapter.OnItemClickListener {
+
+    PullRefreshLayout swipeRefreshLayout;
 
     Context mContext = null;
     Banner banner;
@@ -111,6 +115,8 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     static int QZ_OK = 2; //求职数据
     static int SC_OK = 3; //商城数据
 
+    static boolean isBlockedScrollView = false;
+    int success_ok = 0;
 
     private Handler handler = new Handler(){
         @Override
@@ -128,7 +134,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                     }else{
                         banner.setVisibility(View.GONE);
                     }
-
+                    success_ok = success_ok + 1;
+                    if(success_ok >= 4 ){
+                        swipeRefreshLayout.setRefreshing(false);
+                        isBlockedScrollView = false;
+                    }
                     break;
                 case 1:
                     list_qzzp.clear();
@@ -144,6 +154,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                     adapter_jzzp.notifyDataSetChanged();
                     setHeight(listview_jzzp,adapter_jzzp);
                     sv_home_page.scrollTo(0,0);
+                    success_ok = success_ok + 1;
+                    if(success_ok >= 4 ){
+                        swipeRefreshLayout.setRefreshing(false);
+                        isBlockedScrollView = false;
+                    }
                     break;
                 case 2:
                     list_qzjl.clear();
@@ -159,6 +174,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                     adapter_jzjl.notifyDataSetChanged();
                     setHeight(listview_jzjl,adapter_jzjl);
                     sv_home_page.scrollTo(0,0);
+                    success_ok = success_ok + 1;
+                    if(success_ok >= 4 ){
+                        swipeRefreshLayout.setRefreshing(false);
+                        isBlockedScrollView = false;
+                    }
                     break;
                 case 3:
                     list_sc.clear();
@@ -176,6 +196,18 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 //                    adapter_qzjl.notifyDataSetChanged();
 //                    adapter_jzjl.notifyDataSetChanged();
 //                    setHeight(listview_jzjl,adapter_jzjl);
+                    success_ok = success_ok + 1;
+                    if(success_ok >= 4 ){
+                        swipeRefreshLayout.setRefreshing(false);
+                        isBlockedScrollView = false;
+                    }
+                    break;
+                case 404:
+                    success_ok = success_ok + 1;
+                    if(success_ok >= 4 ){
+                        swipeRefreshLayout.setRefreshing(false);
+                        isBlockedScrollView = false;
+                    }
                     break;
             }
         }
@@ -385,10 +417,29 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         recycler_wszq.setAdapter(homeSCAdapterWSZQ);
         homeSCAdapterWSZQ.setOnItemClickListener(this);//将接口传递到数据产生的地方
 
+        swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // start refresh
+                isBlockedScrollView = true;
+                initData();
+            }
+        });
+        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                return isBlockedScrollView;
+            }
+        });
+
     }
 
     public void initData(){
-
+        success_ok = 0;
         getAdvertisementData();
         hrQuanZhiTile();
         jobQuanZhiTile();
@@ -473,6 +524,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -486,7 +538,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         Entity<List<AdvertisementBean>> result = gson.fromJson(content, new TypeToken<Entity<List<AdvertisementBean>>>() {}.getType());
                         adTempList = result.getData();
                         handler.sendEmptyMessage(AD_OK);
+                    }else {
+                        success_ok = success_ok + 1;
                     }
+                }else{
+                    success_ok = success_ok + 1;
                 }
             }
         });
@@ -505,6 +561,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -525,8 +582,12 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 
                         handler.sendEmptyMessage(ZP_OK);
 
+                    }else{
+                        success_ok = success_ok + 1;
                     }
 
+                }else{
+                    success_ok = success_ok + 1;
                 }
             }
         });
@@ -545,6 +606,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -563,8 +625,12 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 
                         handler.sendEmptyMessage(QZ_OK);
 
+                    }else{
+                        success_ok = success_ok + 1;
                     }
 
+                }else{
+                    success_ok = success_ok + 1;
                 }
             }
         });
@@ -583,6 +649,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -611,7 +678,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                             }
                         }
                         handler.sendEmptyMessage(SC_OK);
+                    }else{
+                        success_ok = success_ok + 1;
                     }
+                }else{
+                    success_ok = success_ok + 1;
                 }
             }
         });

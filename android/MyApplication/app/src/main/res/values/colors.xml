@@ -19,6 +19,7 @@
     <color name="gray">#ccccce</color>
     <color name="s_gray">#a9a9a9</color>
     <color name="red">#E63C3C</color>
+    <color name="q_red">#d9e77d7d</color>
     <color name="blue">#4B7EBF</color>
 
     <color name="activity_bg">#f1f1f1</color>

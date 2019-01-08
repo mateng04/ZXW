@@ -6,6 +6,7 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity
     TextView tv_header_cz, tv_header_mx;
     TextView tv_city_name;
     TextView tv_hyzx_tc;    // 退出按钮
+
+    TextView tv_hyzx_kf;    // 客服电话
 
     BottomDialog dialog;
 
@@ -416,6 +419,7 @@ public class MainActivity extends AppCompatActivity
         tv_hyzx_tc.setOnClickListener(this);
 
         tv_hyzx_kf = (TextView) findViewById(R.id.tv_hyzx_kf);
+        tv_hyzx_kf.setOnClickListener(this);
 
         mViewPager = (ViewPager) findViewById(R.id.vp_view);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -575,8 +579,14 @@ public class MainActivity extends AppCompatActivity
                 });
                 builder.setNegativeButton("取消", null);
                 builder.show();
+                break;
             case R.id.tv_hyzx_kf:
-
+                String tel = tv_hyzx_kf.getText().toString();
+                System.out.println("tel---"+tel);
+                Intent intent = new Intent();               //创建Intent对象
+                intent.setAction(Intent.ACTION_CALL);      //设置动作为拨打电话
+                intent.setData(Uri.parse("tel:" + tel));   // 设置要拨打的电话号码
+                startActivity(intent);                     //启动Activity
                 break;
             default:
 

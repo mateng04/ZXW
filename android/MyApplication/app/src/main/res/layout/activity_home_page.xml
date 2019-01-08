@@ -8,6 +8,12 @@
     android:orientation="vertical"
     tools:context="com.mobile.zxw.myapplication.activity.HomePageActivity">
 
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/q_red">
+
     <ScrollView
         android:id="@+id/sv_home_page"
         android:layout_width="match_parent"
@@ -279,4 +285,6 @@
         </LinearLayout>
 
     </ScrollView>
+
+    </com.baoyz.widget.PullRefreshLayout>
 </LinearLayout>
