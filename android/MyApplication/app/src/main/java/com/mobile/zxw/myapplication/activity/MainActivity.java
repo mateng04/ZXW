@@ -415,6 +415,7 @@ public class MainActivity extends AppCompatActivity
         tv_hyzx_tc = (TextView) findViewById(R.id.tv_hyzx_tc);
         tv_hyzx_tc.setOnClickListener(this);
 
+        tv_hyzx_kf = (TextView) findViewById(R.id.tv_hyzx_kf);
 
         mViewPager = (ViewPager) findViewById(R.id.vp_view);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -574,6 +575,8 @@ public class MainActivity extends AppCompatActivity
                 });
                 builder.setNegativeButton("取消", null);
                 builder.show();
+            case R.id.tv_hyzx_kf:
+
                 break;
             default:
 
