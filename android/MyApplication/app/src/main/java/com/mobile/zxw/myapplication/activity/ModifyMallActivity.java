@@ -68,6 +68,8 @@ public class ModifyMallActivity extends AppCompatActivity implements View.OnClic
 
     private Context mContext;
 
+    TextView tv_modify_mall_cz; //充值
+
     //加载对话框
     private Dialog mLoadingDialog;
     String sessionID;
@@ -370,6 +372,9 @@ public class ModifyMallActivity extends AppCompatActivity implements View.OnClic
 
         bt_modify_mall_fbsp = (Button) findViewById(R.id.bt_modify_mall_fbsp);
         bt_modify_mall_fbsp.setOnClickListener(this);
+
+        tv_modify_mall_cz = (TextView) findViewById(R.id.tv_modify_mall_cz);
+        tv_modify_mall_cz.setOnClickListener(this);
 
         setAdapter();
         setAdapterOnItemClick();
@@ -758,6 +763,9 @@ public class ModifyMallActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.tv_personal_xgsjh :
                 startActivity(new Intent(ModifyMallActivity.this,ModifyPhoneActivity.class));
+                break;
+            case R.id.tv_modify_mall_cz :
+                startActivity(new Intent(ModifyMallActivity.this, OnlineRechargeActivity.class));
                 break;
             case R.id.tv_modify_mall_yxqz_content :
                 showDatePickerDialog();

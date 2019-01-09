@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobile.zxw.myapplication.R;
@@ -64,6 +66,9 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
 
     private static final int REQUEST_CODE = 100;//请求码
     private Context context = null;
+
+    PullRefreshLayout swipeRefreshLayout;
+    static boolean isBlockedScrollView = false;
 
     TextView tv_mall_page_splxsz,tv_mall_page_header_splxsz;
 
@@ -165,6 +170,9 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
                         lv_mall_sc.loadComplete();
                     }
                     cancelDialog();
+
+                    swipeRefreshLayout.setRefreshing(false);
+                    isBlockedScrollView = false;
                     break;
                 case 2:
                     cancelDialog();
@@ -201,6 +209,10 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
                         lv_mall_sc.loadComplete();
                     }
                     cancelDialog();
+                    break;
+                case 404:
+                    swipeRefreshLayout.setRefreshing(false);
+                    isBlockedScrollView = false;
                     break;
             }
         }
@@ -319,6 +331,20 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
         lv_mall_sc.setHeaderView(invis);
         lv_mall_sc.setAdapter(mallPageAdapter);
 
+        lv_mall_sc.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    if (lv_mall_sc.getFirstVisiblePosition() == 0 &&
+                            lv_mall_sc.getChildAt(0).getTop() >= lv_mall_sc.getListPaddingTop()) {
+                        swipeRefreshLayout.setEnabled(true);
+                        Log.d("TAG", "reach top!!!");
+                    }else swipeRefreshLayout.setEnabled(false);
+                }
+                return false;
+            }
+        });
+
 
         //下面设置悬浮和头顶部分内容
         final View header = View.inflate(this, R.layout.view_mall_page_header, null);//头部内容,会隐藏的部分
@@ -385,6 +411,37 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
         tv_mall_wssc.setOnClickListener(this);
         tv_mall_wszq = (TextView) findViewById(R.id.tv_mall_wszq);
         tv_mall_wszq.setOnClickListener(this);
+
+        swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.mall_swipeRefreshLayout);
+        swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // start refresh
+                //先取消加载完成设置
+                lv_mall_sc.cancleAllDataSuccess();
+                countPage = 0;
+                currtPage = 0;
+
+                if("0".equals(type)){
+                    getAdvertisementData("5");
+                }else if("1".equals(type)){
+                    getAdvertisementData("6");
+                }
+
+                getMallData();
+
+                isBlockedScrollView = true;
+            }
+        });
+        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                return isBlockedScrollView;
+            }
+        });
     }
 
     class TextWatcher1 implements TextWatcher {
@@ -547,6 +604,7 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -562,7 +620,11 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
                         result_list = result.getData();
 
                         handler.sendEmptyMessage(SHOP_OK);
+                    }else {
+                        handler.sendEmptyMessage(404);
                     }
+                }else {
+                    handler.sendEmptyMessage(404);
                 }
             }
         });
@@ -636,8 +698,8 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
                     bigclassid = "";
                     smallclassid = "";
                 }else{
-                    tv_mall_page_splxsz.setText(selectList.get(0).getName());
-                    tv_mall_page_header_splxsz.setText(selectList.get(0).getName());
+//                    tv_mall_page_splxsz.setText(selectList.get(0).getName());
+//                    tv_mall_page_header_splxsz.setText(selectList.get(0).getName());
                     bigclassid = selectList.get(0).getName();
                     smallclassid = "";
                 }

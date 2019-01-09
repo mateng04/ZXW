@@ -73,6 +73,8 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
     TextView tv_personal_xgmm, tv_personal_xgsjh;
     Button bt_recruit_manage_fbzp;
 
+    TextView tv_recruit_content_cz; //充值
+
     Button bt_recruit_content_back;
 
     RecruitContentBean recruitContentBean;
@@ -397,6 +399,9 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
             ll_recruit_content_xzqk.setVisibility(View.GONE);
             rl_recruit_content_kxsj.setVisibility(View.GONE);
         }
+
+        tv_recruit_content_cz = (TextView) findViewById(R.id.tv_recruit_content_cz);
+        tv_recruit_content_cz.setOnClickListener(this);
 
         setAdapter();
         setAdapterOnItemClick();
@@ -1013,6 +1018,8 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.bt_recruit_content_back :
                 finish();
+            case R.id.tv_recruit_content_cz :
+                startActivity(new Intent(mContext, OnlineRechargeActivity.class));
                 break;
 
             default:

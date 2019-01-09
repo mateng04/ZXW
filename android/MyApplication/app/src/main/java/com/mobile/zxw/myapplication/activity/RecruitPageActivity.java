@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobile.zxw.myapplication.R;
@@ -62,6 +64,9 @@ import okhttp3.Response;
 
 public class RecruitPageActivity extends AppCompatActivity implements LoadListView.IloadInterface, View.OnClickListener, IListener {
     private Context mContext = null;
+
+    PullRefreshLayout swipeRefreshLayout;
+    static boolean isBlockedScrollView = false;
 
     private boolean flag = true;
     EditText et_recruit_page_sousuo,et_recruit_page_header_sousuo;
@@ -159,9 +164,20 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
                     if(lishi_list != null && lishi_list.size() > 0 ){
                         list_qzzp.addAll(lishi_list);
                     }
+
                     adapter_qzzp.notifyDataSetChanged();
                     lv_recruit_page.loadComplete();
                     cancelDialog();
+
+                    // 20 为每页返回总数据最多20条
+                    if(lishi_list.size() < 20){
+                        lv_recruit_page.setAllDataSuccess();
+                    }else{
+                        lv_recruit_page.cancleAllDataSuccess();
+                    }
+
+                    swipeRefreshLayout.setRefreshing(false);
+                    isBlockedScrollView = false;
                     break;
                 case 2:
                     adapter_qzzp.notifyDataSetChanged();
@@ -188,6 +204,10 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
                     break;
                 case 8:
 //                    adapter_qzzp.notifyDataSetChanged();
+                    break;
+                case 404:
+                    swipeRefreshLayout.setRefreshing(false);
+                    isBlockedScrollView = false;
                     break;
             }
         }
@@ -431,6 +451,20 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
             }
         });
 
+        lv_recruit_page.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    if (lv_recruit_page.getFirstVisiblePosition() == 0 &&
+                            lv_recruit_page.getChildAt(0).getTop() >= lv_recruit_page.getListPaddingTop()) {
+                        swipeRefreshLayout.setEnabled(true);
+                        Log.d("TAG", "reach top!!!");
+                    }else swipeRefreshLayout.setEnabled(false);
+                }
+                return false;
+            }
+        });
+
         //下面设置悬浮和头顶部分内容
         final View header = View.inflate(this, R.layout.view_recruit_page_header, null);//头部内容,会隐藏的部分
         lv_recruit_page.addHeaderView(header);//添加头部
@@ -463,6 +497,36 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
         tv_recruit_jzzp = (TextView) findViewById(R.id.tv_recruit_jzzp);
         tv_recruit_jzzp.setOnClickListener(this);
 
+        swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.recruit_swipeRefreshLayout);
+        swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // start refresh
+                //先取消加载完成设置
+                lv_recruit_page.cancleAllDataSuccess();
+                countPage = 0;
+                currtPage = 0;
+                getAdvertisementData();
+                getRecruitData(type);
+
+                isBlockedScrollView = true;
+            }
+        });
+        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                return isBlockedScrollView;
+            }
+        });
+
+        TextWatcher1 textWatcher1 = new TextWatcher1();
+        TextWatcher2 textWatcher2 = new TextWatcher2();
+        et_recruit_page_sousuo.addTextChangedListener(textWatcher1);
+        et_recruit_page_header_sousuo.addTextChangedListener(textWatcher2);
+
     }
 
     @Override
@@ -483,12 +547,6 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
         getRecruitData(type);
         BigZhiweiClass();
         YueXiClass();
-
-        TextWatcher1 textWatcher1 = new TextWatcher1();
-        TextWatcher2 textWatcher2 = new TextWatcher2();
-
-        et_recruit_page_sousuo.addTextChangedListener(textWatcher1);
-        et_recruit_page_header_sousuo.addTextChangedListener(textWatcher2);
 
     }
 
@@ -652,6 +710,8 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
                             handler.sendEmptyMessage(AD_OK);
                         }
                     }
+                }else {
+                    handler.sendEmptyMessage(404);
                 }
             }
         });
@@ -795,6 +855,7 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -811,7 +872,11 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
                         lishi_list = result.getData();
 
                         handler.sendEmptyMessage(QZ_OK);
+                    }else {
+                        handler.sendEmptyMessage(404);
                     }
+                }else {
+                    handler.sendEmptyMessage(404);
                 }
             }
         });

@@ -1640,7 +1640,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="center_vertical"
                     android:text="温馨提示"
                     android:textColor="@color/red"
@@ -1649,12 +1649,35 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
-                    android:text="@string/vip_member_prompt"
+                    android:text="@string/set_top_tishi1"
                     android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/set_top_tishi2"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tv_release_mall_cz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center_vertical"
+                        android:text="充值"
+                        android:textColor="@color/red"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>

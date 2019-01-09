@@ -688,8 +688,10 @@ public class MainActivity extends AppCompatActivity
 
         //判断是否实现返回值接口
         if (subActivity instanceof OnTabActivityResultListener) {
+            System.out.println("subActivity--"+subActivity);
             //获取返回值接口实例
             OnTabActivityResultListener listener = (OnTabActivityResultListener) subActivity;
+            System.out.println("listener--"+listener);
             //转发请求到子Activity
             listener.onTabActivityResult(requestCode, resultCode, data);
         }

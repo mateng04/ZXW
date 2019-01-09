@@ -73,6 +73,8 @@ public class JobManageActivity extends AppCompatActivity implements View.OnClick
     TextView tv_personal_xgmm, tv_personal_xgsjh;
     Button bt_recruit_manage_fbzp,job_manage_back;
 
+    TextView tv_job_manage_cz;  //充值
+
     private int maxImgCount = 9;               //允许选择图片最大数
     private ImagePickerAdapter imagePickerAdapter;
     private ArrayList<ImageItem> selImageList; //当前选择的所有图片
@@ -341,6 +343,9 @@ public class JobManageActivity extends AppCompatActivity implements View.OnClick
 
         bt_job_manage_bcjl = (Button)findViewById(R.id.bt_job_manage_bcjl);
         bt_job_manage_bcjl.setOnClickListener(this);
+
+        tv_job_manage_cz = (TextView) findViewById(R.id.tv_job_manage_cz);
+        tv_job_manage_cz.setOnClickListener(this);
 
         setAdapter();
         setAdapterOnItemClick();
@@ -1064,6 +1069,9 @@ public class JobManageActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.job_manage_back :
                 finish();
+                break;
+            case R.id.tv_job_manage_cz :
+                startActivity(new Intent(JobManageActivity.this, OnlineRechargeActivity.class));
                 break;
             case R.id.bt_job_manage_bcjl :
                 if(type == 0){

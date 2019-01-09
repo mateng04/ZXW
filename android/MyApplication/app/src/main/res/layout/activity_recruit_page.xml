@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mobile.zxw.myapplication.activity.RecruitPageActivity">
-
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/recruit_swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/q_red">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,14 +17,16 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
             <com.mobile.zxw.myapplication.ui.LoadListView
                 android:id="@+id/lv_recruit_page"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:background="@color/white"/>
 
             <LinearLayout
                 android:id="@+id/invis"
@@ -144,7 +150,7 @@
         </FrameLayout>
     </LinearLayout>
 
-
+    </com.baoyz.widget.PullRefreshLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

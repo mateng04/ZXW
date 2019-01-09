@@ -67,6 +67,8 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
 
     private Context mContext;
 
+    TextView tv_release_mall_cz;    //充值
+
     LinearLayout ll_release_mall_wxzq;
     TextView tv_release_mall_wxzq_yxqz_content;
     EditText et_release_mall_wxzq_spbt,et_release_mal_wxzql_spxq,et_release_mall_wxzq_wxzh;
@@ -416,6 +418,9 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
 
         bt_release_mall_fbsp = (Button) findViewById(R.id.bt_release_mall_fbsp);
         bt_release_mall_fbsp.setOnClickListener(this);
+
+        tv_release_mall_cz = (TextView) findViewById(R.id.tv_release_mall_cz);
+        tv_release_mall_cz.setOnClickListener(this);
 
         setAdapter();
         setAdapterOnItemClick();
@@ -780,6 +785,9 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.tv_release_mall_wxzq_yxqz_content :
                 showDatePickerDialog();
+                break;
+            case R.id.tv_release_mall_cz :
+                startActivity(new Intent(ReleaseMallActivity.this, OnlineRechargeActivity.class));
                 break;
             case R.id.bt_release_mall_fbsp :
                 if(type == 0){

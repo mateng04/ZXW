@@ -75,11 +75,14 @@
 
     </string>
 
-    <string name="set_top_tishi" translatable="false">
-
-        1、信息置顶属自愿行为，固顶后不可撤销;\n
-        2、信息置顶会从账户扣费，如果账户余额不足请提前充值。
+    <string name="set_top_tishi1" translatable="false">
+        1、信息置顶属自愿行为，固顶后不可撤销
     </string>
+    <string name="set_top_tishi2" translatable="false">
+        2、信息置顶会从账户扣费，如果账户余额不足请提前
+    </string>
+
+
     <string name="ggfb_tishi" translatable="false">
 
           \n1、广告属自愿行为，发布后不可撤销;\n2、广告发布会从账户扣费，如果账户余额不足请提前充值。

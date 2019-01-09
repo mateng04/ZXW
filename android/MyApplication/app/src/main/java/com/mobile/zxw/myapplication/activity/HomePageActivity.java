@@ -539,10 +539,10 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         adTempList = result.getData();
                         handler.sendEmptyMessage(AD_OK);
                     }else {
-                        success_ok = success_ok + 1;
+                        handler.sendEmptyMessage(404);
                     }
                 }else{
-                    success_ok = success_ok + 1;
+                    handler.sendEmptyMessage(404);
                 }
             }
         });
@@ -583,11 +583,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         handler.sendEmptyMessage(ZP_OK);
 
                     }else{
-                        success_ok = success_ok + 1;
+                        handler.sendEmptyMessage(404);
                     }
 
                 }else{
-                    success_ok = success_ok + 1;
+                    handler.sendEmptyMessage(404);
                 }
             }
         });
@@ -626,11 +626,11 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         handler.sendEmptyMessage(QZ_OK);
 
                     }else{
-                        success_ok = success_ok + 1;
+                        handler.sendEmptyMessage(404);
                     }
 
                 }else{
-                    success_ok = success_ok + 1;
+                    handler.sendEmptyMessage(404);
                 }
             }
         });
@@ -679,10 +679,10 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                         }
                         handler.sendEmptyMessage(SC_OK);
                     }else{
-                        success_ok = success_ok + 1;
+                        handler.sendEmptyMessage(404);
                     }
                 }else{
-                    success_ok = success_ok + 1;
+                    handler.sendEmptyMessage(404);
                 }
             }
         });

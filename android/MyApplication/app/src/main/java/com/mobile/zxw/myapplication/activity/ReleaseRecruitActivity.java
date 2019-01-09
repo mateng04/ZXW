@@ -75,6 +75,8 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
     TextView tv_personal_xgmm, tv_personal_xgsjh;
     Button bt_recruit_manage_fbzp;
 
+    TextView tv_rele_manage_cz;     //充值
+
     Button bt_release_recruit_back;
 
     public static final int IMAGE_ITEM_ADD = -1;
@@ -358,6 +360,8 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
         job_manage_checkBox6 = (CheckBox) findViewById(R.id.job_manage_checkBox6);
         job_manage_checkBox7 = (CheckBox) findViewById(R.id.job_manage_checkBox7);
 
+        tv_rele_manage_cz = (TextView) findViewById(R.id.tv_rele_manage_cz);
+        tv_rele_manage_cz.setOnClickListener(this);
 
         setAdapter();
         setAdapterOnItemClick();
@@ -797,6 +801,9 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.tv_recruit_yxqx_content :
                 showDatePickerDialog();
+                break;
+            case R.id.tv_rele_manage_cz :
+                startActivity(new Intent(ReleaseRecruitActivity.this, OnlineRechargeActivity.class));
                 break;
 
             default:

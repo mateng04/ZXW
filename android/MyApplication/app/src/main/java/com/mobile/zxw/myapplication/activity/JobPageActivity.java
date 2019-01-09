@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobile.zxw.myapplication.R;
@@ -61,6 +63,9 @@ import okhttp3.Response;
 
 public class JobPageActivity extends AppCompatActivity implements LoadListView.IloadInterface , View.OnClickListener, IListener {
     private Context mContext = null;
+
+    PullRefreshLayout swipeRefreshLayout;
+    static boolean isBlockedScrollView = false;
 
     private boolean flag = true;
     EditText et_job_page_sousuo,et_job_page_header_sousuo;
@@ -161,6 +166,16 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
                     adapter_qzzp.notifyDataSetChanged();
                     lv_job_page.loadComplete();
                     cancelDialog();
+
+                    // 20 为每页返回总数据最多20条
+                    if(lishi_list.size() < 20){
+                        lv_job_page.setAllDataSuccess();
+                    }else{
+                        lv_job_page.cancleAllDataSuccess();
+                    }
+
+                    swipeRefreshLayout.setRefreshing(false);
+                    isBlockedScrollView = false;
                     break;
                 case 3:
                     dl_List.addAll(dl_lishi_List);
@@ -184,6 +199,10 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
                     break;
                 case 8:
 //                    adapter_qzzp.notifyDataSetChanged();
+                    break;
+                case 404:
+                    swipeRefreshLayout.setRefreshing(false);
+                    isBlockedScrollView = false;
                     break;
             }
         }
@@ -415,6 +434,21 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
             }
         });
 
+        lv_job_page.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    Log.d("Measure","listview.getListPaddingTop():"+lv_job_page.getListPaddingTop()+
+                            " listview.getTop():"+lv_job_page.getTop()+"listview.getChildAt(0).getTop():"+lv_job_page.getChildAt(0).getTop());
+                    if (lv_job_page.getFirstVisiblePosition() == 0 &&
+                            lv_job_page.getChildAt(0).getTop() >= lv_job_page.getListPaddingTop()) {
+                        swipeRefreshLayout.setEnabled(true);
+                        Log.d("TAG", "reach top!!!");
+                    }else swipeRefreshLayout.setEnabled(false);
+                }
+                return false;
+            }
+        });
 
         //下面设置悬浮和头顶部分内容
         final View header = View.inflate(this, R.layout.view_job_page_header, null);//头部内容,会隐藏的部分
@@ -447,6 +481,38 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
         tv_job_qzzp.setOnClickListener(this);
         tv_job_jzzp = (TextView) findViewById(R.id.tv_job_jzzp);
         tv_job_jzzp.setOnClickListener(this);
+
+        swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.job_swipeRefreshLayout);
+        swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // start refresh
+                //先取消加载完成设置
+                lv_job_page.cancleAllDataSuccess();
+                countPage = 0;
+                currtPage = 0;
+
+                getAdvertisementData();
+                getjobData(type);
+
+                isBlockedScrollView = true;
+            }
+        });
+        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                return isBlockedScrollView;
+            }
+        });
+
+        TextWatcher1 textWatcher1 = new TextWatcher1();
+        TextWatcher2 textWatcher2 = new TextWatcher2();
+
+        et_job_page_sousuo.addTextChangedListener(textWatcher1);
+        et_job_page_header_sousuo.addTextChangedListener(textWatcher2);
     }
 
     @Override
@@ -463,17 +529,13 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
 
 
     public void initData() {
+
         list_qzzp.clear();
         getAdvertisementData();
         getjobData(type);
         BigZhiweiClass();
         YueXiClass();
 
-        TextWatcher1 textWatcher1 = new TextWatcher1();
-        TextWatcher2 textWatcher2 = new TextWatcher2();
-
-        et_job_page_sousuo.addTextChangedListener(textWatcher1);
-        et_job_page_header_sousuo.addTextChangedListener(textWatcher2);
     }
 
     @Override
@@ -678,6 +740,7 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -692,7 +755,11 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
                         currtPage = result.getCurrtPage();
                         lishi_list = result.getData();
                         handler.sendEmptyMessage(QZ_OK);
+                    }else {
+                        handler.sendEmptyMessage(404);
                     }
+                }else {
+                    handler.sendEmptyMessage(404);
                 }
             }
         });
@@ -916,6 +983,7 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("TAG",e.getMessage());
+                handler.sendEmptyMessage(404);
             }
 
             @Override
@@ -933,7 +1001,6 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
                         }else{
                             handler.sendEmptyMessage(XL_ERROR);
                         }
-
                     }
                 }
             }
