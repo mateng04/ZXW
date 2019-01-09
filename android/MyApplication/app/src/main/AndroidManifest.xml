@@ -150,6 +150,9 @@
         <activity
             android:name=".activity.ModifyWSMallActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"

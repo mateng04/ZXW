@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,10 +119,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     String kaitongyuefen;
 
-
     EditText et_reg_hyxm,et_reg_mm,et_reg_qrmm,et_reg_sjh,et_reg_yzm;
-
     Button bt_registration,bt_reg_hqyzm;
+
+    CheckBox checkBox_reg;
+    TextView tv_reg_fwtk, tv_reg_bmxy;
 
     //加载对话框
     private Dialog mLoadingDialog;
@@ -305,6 +307,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         bt_reg_hqyzm.setOnClickListener(this);
 
 
+        checkBox_reg = (CheckBox) findViewById(R.id.checkBox_reg);
+        tv_reg_fwtk = (TextView) findViewById(R.id.tv_reg_fwtk);
+        tv_reg_fwtk.setOnClickListener(this);
+        tv_reg_bmxy = (TextView) findViewById(R.id.tv_reg_bmxy);
+        tv_reg_bmxy.setOnClickListener(this);
     }
 
     @Override
@@ -332,6 +339,16 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 getcode(sjh);
                 //测试发送验证码
                 sendYZM();
+                break;
+            case R.id.tv_reg_fwtk :
+                Intent intent = new Intent(RegistrationActivity.this, WebViewActivity.class);
+                intent.putExtra("from","fwtk");
+                startActivity(intent);
+                break;
+            case R.id.tv_reg_bmxy :
+                Intent intent2 = new Intent(RegistrationActivity.this, WebViewActivity.class);
+                intent2.putExtra("from","bmxy");
+                startActivity(intent2);
                 break;
             default:
                 break;
@@ -623,6 +640,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         if(yzm.length() != 4){
             Toast.makeText(mContext,"请输入正确的验证码", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!checkBox_reg.isChecked()){
+            Toast.makeText(mContext,"请阅读并同意正信网服务条款和保密协议", Toast.LENGTH_SHORT).show();
             return;
         }
 

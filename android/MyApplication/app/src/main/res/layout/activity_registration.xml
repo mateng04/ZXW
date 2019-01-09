@@ -555,12 +555,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="30dp"
                 android:layout_toRightOf="@+id/tv_registration_open_month"
                 android:gravity="center_vertical"
                 android:textSize="12sp"
                 android:textColor="@color/red"
                 android:text="*真实姓名及所属区域注册后不可更改"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/checkBox_reg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:checked="true"
+                    android:text="我已阅读并同意正信网"/>
+
+                <TextView
+                    android:id="@+id/tv_reg_fwtk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="《服务条款》"
+                    android:textColor="@color/red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:text="和"/>
+                <TextView
+                    android:id="@+id/tv_reg_bmxy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《保密协议》"
+                    android:textColor="@color/red"/>
+            </LinearLayout>
 
         </LinearLayout>
 
