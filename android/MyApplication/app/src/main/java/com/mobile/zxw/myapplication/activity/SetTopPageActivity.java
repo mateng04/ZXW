@@ -47,6 +47,8 @@ public class SetTopPageActivity extends AppCompatActivity implements View.OnClic
     private Button set_top_back;
     private Button bt_settop_xyb;
 
+    TextView tv_settop_cz;//充值
+
     private Spinner tv_settop_zdyf;
     ArrayAdapter<String> zdyf_adapter;
     private List<String> list_zdyf = new ArrayList<String>();
@@ -153,6 +155,10 @@ public class SetTopPageActivity extends AppCompatActivity implements View.OnClic
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        tv_settop_cz = (TextView) findViewById(R.id.tv_settop_cz);
+        tv_settop_cz.setOnClickListener(this);
+
     }
 
     @Override
@@ -164,6 +170,9 @@ public class SetTopPageActivity extends AppCompatActivity implements View.OnClic
             case R.id.bt_settop_xyb :
                 showDialog("");
                 guding();
+                break;
+            case R.id.tv_settop_cz :
+                startActivity(new Intent(SetTopPageActivity.this, OnlineRechargeActivity.class));
                 break;
             default:
                 break;
