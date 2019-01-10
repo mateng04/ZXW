@@ -2,6 +2,8 @@ package com.mobile.zxw.myapplication.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -43,6 +45,9 @@ import com.mobile.zxw.myapplication.bean.HomeSCBean;
 import com.mobile.zxw.myapplication.bean.ShopDetailsBean;
 import com.mobile.zxw.myapplication.http.HttpUtils;
 import com.mobile.zxw.myapplication.jsonEntity.Entity;
+import com.mobile.zxw.myapplication.myinterface.MenuCommand;
+import com.mobile.zxw.myapplication.ui.CenterMenuDialog;
+import com.mobile.zxw.myapplication.ui.Menu;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.mobile.zxw.myapplication.until.Utils;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
@@ -196,7 +201,21 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
         tv_shop_details_fahuodi = (TextView) findViewById(R.id.tv_shop_details_fahuodi);
 
         tv_shop_details_qq = (TextView) findViewById(R.id.tv_shop_details_qq);
+        tv_shop_details_qq.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showMenu(tv_shop_details_qq);
+                return true;
+            }
+        });
         tv_shop_details_weixin = (TextView) findViewById(R.id.tv_shop_details_weixin);
+        tv_shop_details_weixin.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showMenu(tv_shop_details_weixin);
+                return true;
+            }
+        });
         tv_shop_details_zyts = (TextView) findViewById(R.id.tv_shop_details_zyts);
 
         tv_shop_details_cpxqnr = (TextView) findViewById(R.id.tv_shop_details_cpxqnr);
@@ -650,6 +669,35 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
                     .open();
         }
     }
+
+    public void showMenu(final TextView textView) {
+        //可以按照需求随意添加 中心显示的Dialog
+        CenterMenuDialog centerMenuDialog = new CenterMenuDialog(ShopDetailsActivity.this);
+        //第一个选择条目
+        Menu copyMenu = new Menu.Builder().setCaption("复制").setMenuCommand(new MenuCommand() {
+            @Override
+            public void onClick() {
+                ClipboardManager myClipboard;
+                myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                myClipboard.setPrimaryClip(ClipData.newPlainText("content", textView.getText()));
+                Toast.makeText(ShopDetailsActivity.this, "内容已经复制", Toast.LENGTH_SHORT).show();
+            }
+        }).build();
+        centerMenuDialog.addMenu(copyMenu);
+
+        //第二个选择条目
+        Menu themeMenu = new Menu.Builder().setCaption("取消").setMenuCommand(new MenuCommand() {
+            @Override
+            public void onClick() {
+                Toast.makeText(ShopDetailsActivity.this, "已经取消", Toast.LENGTH_SHORT).show();
+            }
+        }).build();
+        centerMenuDialog.addMenu(themeMenu);
+
+        //显示Dialog
+        centerMenuDialog.show();
+    }
+
 
     private UMShareListener shareListener = new UMShareListener() {
         /**

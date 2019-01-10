@@ -1018,6 +1018,7 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.bt_recruit_content_back :
                 finish();
+                break;
             case R.id.tv_recruit_content_cz :
                 startActivity(new Intent(mContext, OnlineRechargeActivity.class));
                 break;

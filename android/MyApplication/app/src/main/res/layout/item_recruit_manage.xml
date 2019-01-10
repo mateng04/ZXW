@@ -21,15 +21,6 @@
 
 
         <TextView
-            android:id="@+id/tv_item_rm_state"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="状态"/>
-
-        <TextView
             android:id="@+id/tv_item_rm_top"
             android:layout_width="0dp"
             android:layout_height="45dp"
@@ -38,6 +29,26 @@
             android:padding="5dp"
             android:text="置顶"
             android:textColor="@color/blue"/>
+
+        <TextView
+            android:id="@+id/tv_item_rm_state"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="状态"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_item_rm_sx"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="刷新"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/tv_item_rm_operation"

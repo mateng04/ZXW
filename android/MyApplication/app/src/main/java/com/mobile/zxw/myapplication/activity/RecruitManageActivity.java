@@ -110,6 +110,9 @@ public class RecruitManageActivity extends AppCompatActivity implements XListVie
     static int DATA_DELETE = 3;
     static int DATA_DELETE_OK = 4;
     static int DATA_DELETE_ERROR = 5;
+    static int DATA_SHAXIN = 6;
+    static int DATA_SHAXIN_OK = 7;
+    static int DATA_SHAXIN_ERROR = 8;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -149,6 +152,20 @@ public class RecruitManageActivity extends AppCompatActivity implements XListVie
                 case 5:
                     cancelDialog();
                     Toast.makeText(mContext,"删除失败",Toast.LENGTH_SHORT).show();
+                    break;
+                case 6:
+                    showDialog("正在刷新数据");
+                    xxid = (String) msg.obj;
+                    position = msg.arg1;
+                    shuaxinzhaopin();
+                    break;
+                case 7:
+                    cancelDialog();
+                    Toast.makeText(mContext,"刷新成功",Toast.LENGTH_SHORT).show();
+                    break;
+                case 8:
+                    cancelDialog();
+                    Toast.makeText(mContext,"刷新失败",Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -596,6 +613,40 @@ public class RecruitManageActivity extends AppCompatActivity implements XListVie
                             handler.sendEmptyMessage(DATA_DELETE_OK);
                         }else{
                             handler.sendEmptyMessage(DATA_DELETE_ERROR);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    //刷新招聘信息
+    public void shuaxinzhaopin(){
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("sessionID",sessionID).add("userid",userid)
+                .add("xxid",xxid).add("type",dataflag).build();
+        Request request = new Request.Builder().url(HttpUtils.URL+"/appServic/user/hrshuaxin.asp").post(requestBody).build();
+        //4.创建一个call对象,参数就是Request请求对象
+        Call call = okHttpClient.newCall(request);
+        //5.请求加入调度,重写回调方法
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("TAG",e.getMessage());
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String content = response.body().string();
+                    Log.d("shanchuzhaopin","content=="+content);
+                    if(response.code() == 200){
+                        Gson gson = new Gson();
+                        Entity result = gson.fromJson(content, new TypeToken<Entity>() {}.getType());
+                        if(result.getCode() == 0){
+                            handler.sendEmptyMessage(DATA_SHAXIN_OK);
+                        }else{
+                            handler.sendEmptyMessage(DATA_SHAXIN_ERROR);
                         }
                     }
                 }
