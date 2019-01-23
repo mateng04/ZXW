@@ -1,5 +1,6 @@
 package com.mobile.zxw.myapplication.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.LocalActivityManager;
@@ -7,11 +8,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
@@ -48,6 +51,12 @@ import com.mobile.zxw.myapplication.ui.area.BottomDialog;
 import com.mobile.zxw.myapplication.until.ListenerManager;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.ShareContent;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,6 +97,7 @@ public class MainActivity extends AppCompatActivity
 
     TextView tv_header_cz, tv_header_mx;
     TextView tv_city_name;
+    TextView item_share;
     TextView tv_hyzx_tc;    // 退出按钮
 
     TextView tv_hyzx_kf;    // 客服电话
@@ -281,6 +291,14 @@ public class MainActivity extends AppCompatActivity
 //                startActivity(intent);
 
                 dialog.show();
+            }
+        });
+        MenuItem itemShare = menu.findItem(R.id.item_share);
+        item_share = (TextView) MenuItemCompat.getActionView(itemShare);
+        itemShare.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPermission();
             }
         });
 
@@ -848,4 +866,82 @@ public class MainActivity extends AppCompatActivity
         builder.setNegativeButton("取消", null);
         builder.show();
     }
+
+    public void getPermission(){
+        if(Build.VERSION.SDK_INT>=23){
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS,Manifest.permission.WRITE_APN_SETTINGS};
+            ActivityCompat.requestPermissions(this,mPermissionList,123);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if(requestCode != 123){
+            Toast.makeText(this, "请给与权限", Toast.LENGTH_SHORT).show();
+        }else{
+            String imageurl = "http://www.zhengxinw.com/image/app_logo.png";
+            String content = "企业招聘、个人求职，就来正信网，涵盖所有职位分类，点点鼠标，轻松发布信息。县域在线商城、微商商城，覆盖全国范围，快速下单，快速发货。";
+            UMImage image = new UMImage(MainActivity.this, imageurl);//网络图片
+
+//            new ShareAction(ShopDetailsActivity.this).withText(content)
+//                    .withMedia(image)
+//                    .setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+//                    .setCallback(this)
+//                    .setShareContent()
+//                    .open();
+            UMWeb web = new UMWeb("http://www.zhengxinw.com/app/");
+            web.setTitle("正信网客户端");//标题
+            web.setThumb(image);  //缩略图
+            web.setDescription(content);//描述
+            ShareContent shareContent = new ShareContent();
+            shareContent.mText = content;
+            new ShareAction(MainActivity.this)
+                    .setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                    .withMedia(web)
+                    .setCallback(shareListener)//回调监听器
+                    .open();
+        }
+    }
+
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(MainActivity.this,"分享成功",Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            System.out.println("getMessage---"+t.getMessage());
+            Toast.makeText(MainActivity.this,"分享失败"+t.getMessage(),Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(MainActivity.this,"分享取消",Toast.LENGTH_LONG).show();
+
+        }
+    };
 }

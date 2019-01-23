@@ -69,6 +69,7 @@ public class RecruitManageAdapter extends BaseAdapter  {
             viewHolder.tv_item_rm_state = (TextView) view.findViewById(R.id.tv_item_rm_state);
             viewHolder.tv_item_rm_top = (TextView) view.findViewById(R.id.tv_item_rm_top);
             viewHolder.tv_item_rm_sx = (TextView) view.findViewById(R.id.tv_item_rm_sx);
+            viewHolder.tv_item_rm_xg = (TextView) view.findViewById(R.id.tv_item_rm_xg);
             viewHolder.tv_item_rm_operation = (TextView) view.findViewById(R.id.tv_item_rm_operation);
             view.setTag(viewHolder);
 
@@ -163,6 +164,20 @@ public class RecruitManageAdapter extends BaseAdapter  {
             }
         });
 
+        viewHolder.tv_item_rm_xg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(mContext,"删除"+recruitManageBean.getHrID(),Toast.LENGTH_SHORT).show();
+
+                Message message = Message.obtain();
+                message.obj =  list.get(position).getId();
+                message.arg1 = position;
+                message.what = 9; // 结束标志位
+                handler.sendMessage(message); // 将数据发送过去~
+            }
+        });
+
+
         return view;
 
     }
@@ -174,6 +189,7 @@ public class RecruitManageAdapter extends BaseAdapter  {
         TextView tv_item_rm_state;
         TextView tv_item_rm_top;
         TextView tv_item_rm_sx;
+        TextView tv_item_rm_xg;
         TextView tv_item_rm_operation;
 
     }

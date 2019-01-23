@@ -167,6 +167,14 @@ public class RecruitManageActivity extends AppCompatActivity implements XListVie
                     cancelDialog();
                     Toast.makeText(mContext,"刷新失败",Toast.LENGTH_SHORT).show();
                     break;
+                case 9:
+                    xxid = (String) msg.obj;
+                    position = msg.arg1;
+                    Intent intent = new Intent(RecruitManageActivity.this,RecruitContentActivity.class);
+                    intent.putExtra("xxid",xxid);
+                    intent.putExtra("type",dataflag);
+                    startActivity(intent);
+                    break;
             }
         }
     };

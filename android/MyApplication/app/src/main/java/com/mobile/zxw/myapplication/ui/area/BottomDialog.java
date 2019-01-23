@@ -60,8 +60,14 @@ public class BottomDialog extends Dialog {
         mDialogBinding.ivSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(currentMap.size() < 1 ){
+                    Toast.makeText(context,"请选择城市",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if(currentMap.size() < 2){
-                    System.out.println("xxxx----"+currentMap.get(0).getName());
+//                    System.out.println("xxxx----"+currentMap.get(0).getName());
                     if("全国".equals(currentMap.get(0).getName())){
                         if (resultCallBack != null) {
                             resultCallBack.onResult(currentMap);

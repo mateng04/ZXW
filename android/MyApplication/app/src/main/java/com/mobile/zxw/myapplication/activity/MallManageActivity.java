@@ -165,6 +165,19 @@ public class MallManageActivity extends AppCompatActivity implements XListView.I
                     cancelDialog();
                     Toast.makeText(mContext,"刷新失败",Toast.LENGTH_SHORT).show();
                     break;
+                case 9:
+                    xxid = (String) msg.obj;
+                    position = msg.arg1;
+                    if("0".equals(dataflag)){
+                        Intent intent = new Intent(MallManageActivity.this,ModifyMallActivity.class);
+                        intent.putExtra("xxid",xxid);
+                        startActivity(intent);
+                    }else{
+                        Intent intent2 = new Intent(MallManageActivity.this,ModifyWSMallActivity.class);
+                        intent2.putExtra("xxid",xxid);
+                        startActivity(intent2);
+                    }
+                    break;
             }
         }
     };

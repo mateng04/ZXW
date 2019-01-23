@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mobile.zxw.myapplication.R;
 import com.mobile.zxw.myapplication.bean.RecruitBean;
+import com.mobile.zxw.myapplication.until.DayUtils;
 
 import java.util.List;
 
@@ -70,7 +71,17 @@ public class RecruitDataAdapter extends BaseAdapter  {
         String timeTemp = (this.list.get(position).getRecruitTime());
         String time = timeTemp.substring(5,10);
 //        .substring(5,9)
-        viewHolder.tv_home_zp_time.setText(time);
+
+        String day = DayUtils.getTitleDay(timeTemp);
+        System.out.println("day---------"+day);
+
+        if("今天".equals(day)){
+            viewHolder.tv_home_zp_time.setText("今天");
+        }else if("昨天".equals(day)){
+            viewHolder.tv_home_zp_time.setText("昨天");
+        }else{
+            viewHolder.tv_home_zp_time.setText(time);
+        }
 
         return view;
 
