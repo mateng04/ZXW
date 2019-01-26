@@ -70,6 +70,7 @@ import okhttp3.Response;
 public class RecruitContentActivity extends AppCompatActivity implements View.OnClickListener, ImagePickerAdapter.OnRecyclerViewItemClickListener  {
 
     private Context mContext;
+    String hyjb = "";   //  普通   VIP
     TextView tv_personal_xgmm, tv_personal_xgsjh;
     Button bt_recruit_manage_fbzp;
 
@@ -290,14 +291,16 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_recruit_content);
         mContext = this;
 
+        sharedPreferencesHelper = new SharedPreferencesHelper(
+                mContext, "config");
+        //会员级别
+        hyjb = (String) sharedPreferencesHelper.getSharedPreference("hyjb", "");
+
         calendar = Calendar.getInstance();
         if(okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(new LogInterceptor()).build();
         }
-        sharedPreferencesHelper = new SharedPreferencesHelper(
-                mContext, "config");
-
 
         xxid = getIntent().getStringExtra("xxid");
         type = Integer.valueOf(getIntent().getStringExtra("type"));
@@ -402,6 +405,17 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
 
         tv_recruit_content_cz = (TextView) findViewById(R.id.tv_recruit_content_cz);
         tv_recruit_content_cz.setOnClickListener(this);
+
+        if("".equals(hyjb)){
+            et_recruit_content_lxr.setEnabled(false);
+            et_recruit_content_lxdh.setEnabled(false);
+        }else if("普通".equals(hyjb)){
+            et_recruit_content_lxr.setEnabled(false);
+            et_recruit_content_lxdh.setEnabled(false);
+        }else if("VIP".equals(hyjb)){
+            et_recruit_content_lxr.setEnabled(true);
+            et_recruit_content_lxdh.setEnabled(true);
+        }
 
         setAdapter();
         setAdapterOnItemClick();

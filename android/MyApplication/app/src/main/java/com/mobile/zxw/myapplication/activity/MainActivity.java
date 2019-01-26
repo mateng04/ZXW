@@ -74,6 +74,8 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IListener, View.OnClickListener {
 
+    Toolbar toolbar;
+    TextView tv_toolbar;
     private String shengID="";
     private String shiID="";
     private String quxianID="";
@@ -180,8 +182,8 @@ public class MainActivity extends AppCompatActivity
         //注册监听器
         ListenerManager.getInstance().registerListtener(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         drawerRootView = findViewById(R.id.nav_view);
@@ -363,12 +365,20 @@ public class MainActivity extends AppCompatActivity
         if("".equals(hyjb)){
             tv_hyzx_hy.setText("普通会员");
             tv_hyzx_ktviphy.setVisibility(View.VISIBLE);
+            if(!"".equals(userName)){
+                tv_toolbar.setText(userName);
+                tv_toolbar.setTextColor(context.getResources().getColor(R.color.black));
+            }
         }else if("普通".equals(hyjb)){
             tv_hyzx_hy.setText("普通会员");
             tv_hyzx_ktviphy.setVisibility(View.VISIBLE);
+            tv_toolbar.setText(userName);
+            tv_toolbar.setTextColor(context.getResources().getColor(R.color.black));
         }else if("VIP".equals(hyjb)){
             tv_hyzx_hy.setText("VIP会员");
             tv_hyzx_ktviphy.setVisibility(View.VISIBLE);
+            tv_toolbar.setText(userName+" (VIP)");
+            tv_toolbar.setTextColor(context.getResources().getColor(R.color.red));
         }
 
         mactivityManager.dispatchResume();
@@ -399,6 +409,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void initView() {
+
+        tv_toolbar = (TextView) findViewById(R.id.tv_toolbar);
 
         tv_hyzx_xm = (TextView) findViewById(R.id.tv_hyzx_xm);
         tv_hyzx_zhye = (TextView) findViewById(R.id.tv_hyzx_zhye);
@@ -481,7 +493,6 @@ public class MainActivity extends AppCompatActivity
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(2)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(3)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(4)));
-
 
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList);
         //给ViewPager设置适配器
@@ -592,6 +603,8 @@ public class MainActivity extends AppCompatActivity
                         sharedPreferencesHelper.put("zhye", "");
                         sharedPreferencesHelper.put("xfje", "");
                         sharedPreferencesHelper.put("hyjb", "");
+                        tv_toolbar.setText(R.string.app_name);
+                        tv_toolbar.setTextColor(context.getResources().getColor(R.color.red));
                         drawer.closeDrawer(GravityCompat.START);
                     }
                 });
@@ -891,7 +904,7 @@ public class MainActivity extends AppCompatActivity
 //                    .setShareContent()
 //                    .open();
             UMWeb web = new UMWeb("http://www.zhengxinw.com/app/");
-            web.setTitle("正信网客户端");//标题
+            web.setTitle("正信网APP下载");//标题
             web.setThumb(image);  //缩略图
             web.setDescription(content);//描述
             ShareContent shareContent = new ShareContent();

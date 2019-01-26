@@ -72,6 +72,7 @@ import okhttp3.Response;
 public class ReleaseRecruitActivity extends AppCompatActivity implements View.OnClickListener, ImagePickerAdapter.OnRecyclerViewItemClickListener  {
 
     private Context mContext;
+    String hyjb = "";   //  普通   VIP
     TextView tv_personal_xgmm, tv_personal_xgsjh;
     Button bt_recruit_manage_fbzp;
 
@@ -144,7 +145,7 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
     Spinner sp_rele_recruit_nlfwk, sp_rele_recruit_nlfwj;
     EditText et_rele_recruit_zwms;
     Button bt_rele_recruit_fbzp;
-    TextView et_rele_recruit_lxr,et_rele_recruit_lxdh;
+    EditText et_rele_recruit_lxr,et_rele_recruit_lxdh;
     Spinner sp_rele_recruit_zdyf;
 
     RelativeLayout rl_rele_recruit_yxqk;
@@ -278,6 +279,8 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
         sharedPreferencesHelper = new SharedPreferencesHelper(
                 ReleaseRecruitActivity.this, "config");
 
+        //会员级别
+        hyjb = (String) sharedPreferencesHelper.getSharedPreference("hyjb", "");
 
         sessionID = (String) sharedPreferencesHelper.getSharedPreference("sessionID", "");
         userid = (String) sharedPreferencesHelper.getSharedPreference("userid", "");
@@ -338,11 +341,11 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
         bt_rele_recruit_fbzp = (Button) findViewById(R.id.bt_rele_recruit_fbzp);
         bt_rele_recruit_fbzp.setOnClickListener(this);
 
-        et_rele_recruit_lxr = (TextView) findViewById(R.id.et_rele_recruit_lxr);
+        et_rele_recruit_lxr = (EditText) findViewById(R.id.et_rele_recruit_lxr);
         if(userName != ""){
             et_rele_recruit_lxr.setText(userName.substring(0,1)+"先生");
         }
-        et_rele_recruit_lxdh = (TextView) findViewById(R.id.et_rele_recruit_lxdh);
+        et_rele_recruit_lxdh = (EditText) findViewById(R.id.et_rele_recruit_lxdh);
         et_rele_recruit_lxdh.setText(denglushouji);
 
         sp_rele_recruit_zdyf = (Spinner) findViewById(R.id.sp_rele_recruit_zdyf);
@@ -362,6 +365,17 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
 
         tv_rele_manage_cz = (TextView) findViewById(R.id.tv_rele_manage_cz);
         tv_rele_manage_cz.setOnClickListener(this);
+
+        if("".equals(hyjb)){
+            et_rele_recruit_lxr.setEnabled(false);
+            et_rele_recruit_lxdh.setEnabled(false);
+        }else if("普通".equals(hyjb)){
+            et_rele_recruit_lxr.setEnabled(false);
+            et_rele_recruit_lxdh.setEnabled(false);
+        }else if("VIP".equals(hyjb)){
+            et_rele_recruit_lxr.setEnabled(true);
+            et_rele_recruit_lxdh.setEnabled(true);
+        }
 
         setAdapter();
         setAdapterOnItemClick();
