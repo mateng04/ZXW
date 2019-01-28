@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +37,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -65,7 +64,9 @@ public class OnlineRechargeActivity extends AppCompatActivity implements View.On
 
     private EditText et_or_jine;
     TextView tv_or_czzh,tv_or_dqye;
-    Spinner sp_or_czfs;
+//    Spinner sp_or_czfs;
+    RadioGroup rg_or_order;
+    String zhiffs = "微信";
     ArrayAdapter<String> czfsAdapter;
     private List<String> czfsList;
 
@@ -158,12 +159,29 @@ public class OnlineRechargeActivity extends AppCompatActivity implements View.On
         tv_or_dqye = (TextView) findViewById(R.id.tv_or_dqye);
         et_or_jine = (EditText) findViewById(R.id.et_or_jine);
 
-        sp_or_czfs = (Spinner) findViewById(R.id.sp_or_czfs);
-        czfsList = new ArrayList<>();
-        czfsList.add("微信");
-        czfsList.add("支付宝");
-        czfsAdapter =new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,czfsList);
-        sp_or_czfs.setAdapter(czfsAdapter);
+//        sp_or_czfs = (Spinner) findViewById(R.id.sp_or_czfs);
+//        czfsList = new ArrayList<>();
+//        czfsList.add("微信");
+//        czfsList.add("支付宝");
+//        czfsAdapter =new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,czfsList);
+//        sp_or_czfs.setAdapter(czfsAdapter);
+
+        rg_or_order = (RadioGroup) findViewById(R.id.rg_or_order);
+        rg_or_order.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.rb_or_zfb:
+                        zhiffs = "支付宝";
+                        break;
+                    case R.id.rb_or_wx:
+                        zhiffs = "微信";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 //        sp_or_czfs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -209,7 +227,15 @@ public class OnlineRechargeActivity extends AppCompatActivity implements View.On
                     Toast.makeText(mContext,"充值金额必须为大于0小于5000的正整数",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(sp_or_czfs.getSelectedItemPosition() == 0){
+
+//                if(sp_or_czfs.getSelectedItemPosition() == 0){
+//                    wxChongZhi();
+//                }else{
+//                    System.out.println("11111");
+//                    chongZhi();
+//                }
+
+                if("微信".equals(zhiffs)){
                     wxChongZhi();
                 }else{
                     System.out.println("11111");

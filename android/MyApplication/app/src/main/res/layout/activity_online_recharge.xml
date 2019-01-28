@@ -159,6 +159,26 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">p
 
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_or_czfs"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingLeft="5dp"-->
+                    <!--android:text="充值方式"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="16sp" />-->
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/sp_or_czfs"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_toRightOf="@id/tv_or_czfs"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:spinnerMode="dialog"/>-->
+
                 <TextView
                     android:id="@+id/tv_or_czfs"
                     android:layout_width="100dp"
@@ -169,29 +189,52 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <Spinner
-                    android:id="@+id/sp_or_czfs"
+                <RadioGroup
+                    android:id="@+id/rg_or_order"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_toRightOf="@id/tv_or_czfs"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
-                    android:spinnerMode="dialog"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@color/white"/>
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/jt_right" />
+                    <RadioButton
+                        android:id="@+id/rb_or_wx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:layout_marginLeft="10dp"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="20dp"
+                        android:text="微信&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;支持微信用户付款，方便快捷"
+                        android:visibility="visible"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_or_zfb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="20dp"
+                        android:text="支付宝&#160;&#160;&#160;&#160;&#160;&#160;支持支付宝用户付款，方便快捷" />
+
+
+                </RadioGroup>
+
+                <!--<ImageView-->
+                    <!--android:layout_width="80dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:background="@color/white"/>-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:src="@mipmap/jt_right" />-->
             </RelativeLayout>
 
             <Button
