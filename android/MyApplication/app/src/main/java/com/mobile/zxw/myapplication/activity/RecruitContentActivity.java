@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -363,6 +364,21 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
         sp_recruit_content_nlfwj = (Spinner) findViewById(R.id.sp_recruit_content_nlfwj);
 
         et_recruit_content_zwms = (EditText) findViewById(R.id.et_recruit_content_zwms);
+        et_recruit_content_zwms.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (v.getId()) {
+                    case R.id.et_recruit_content_zwms:
+                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
+                        if (canVerticalScroll(et_recruit_content_zwms))
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            v.getParent().requestDisallowInterceptTouchEvent(false);//告诉父view，你可以处理了
+                        }
+                }
+                return false;
+            }
+        });
 
         bt_recruit_content_fbzp = (Button) findViewById(R.id.bt_recruit_content_fbzp);
         bt_recruit_content_fbzp.setOnClickListener(this);
@@ -1550,7 +1566,27 @@ public class RecruitContentActivity extends AppCompatActivity implements View.On
         }
     }
 
+    /**
+     * EditText竖直方向能否够滚动
+     * @param editText  须要推断的EditText
+     * @return  true：能够滚动   false：不能够滚动
+     */
+    private boolean canVerticalScroll(EditText editText) {
+        //滚动的距离
+        int scrollY = editText.getScrollY();
+        //控件内容的总高度
+        int scrollRange = editText.getLayout().getHeight();
+        //控件实际显示的高度
+        int scrollExtent = editText.getHeight() - editText.getCompoundPaddingTop() -editText.getCompoundPaddingBottom();
+        //控件内容总高度与实际显示高度的差值
+        int scrollDifference = scrollRange - scrollExtent;
 
+        if(scrollDifference == 0) {
+            return false;
+        }
+        System.out.println("scrollY---"+scrollY);
+        return (scrollY > 0) || (scrollY < scrollDifference - 1);
+    }
 
     // 创建一个内部类来实现 ,在实现下面内部类之前,需要自定义的Bean对象来封装处理Josn格式的数据
     class  NewsAsyncTask extends AsyncTask<String,Void,String> {

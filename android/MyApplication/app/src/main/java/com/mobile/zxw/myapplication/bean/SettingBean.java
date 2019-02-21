@@ -28,6 +28,7 @@ public class SettingBean {
     private String gudingyue3;
     private String gudingyue6;
     private String gudingyue12;
+    private String putongfabu;
     private String shopfabu;
     private String tel1;
     private String shopyajin;
@@ -190,5 +191,13 @@ public class SettingBean {
 
     public void setShopyajin(String shopyajin) {
         this.shopyajin = shopyajin;
+    }
+
+    public String getPutongfabu() {
+        return putongfabu;
+    }
+
+    public void setPutongfabu(String putongfabu) {
+        this.putongfabu = putongfabu;
     }
 }

@@ -189,19 +189,22 @@
                         android:gravity="center_vertical"
                         android:hint="请输入标题"
                         android:paddingLeft="10dp"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:layout_marginTop="1dp"
+                    android:layout_marginBottom="2dp"
                     android:background="@color/white"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="100dp"
-                        android:layout_height="40dp"
+                        android:layout_height="120dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
                         android:text="商品详情"
@@ -211,12 +214,13 @@
                     <EditText
                         android:id="@+id/et_release_mal_wxzql_spxq"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:hint="请输入详情"
                         android:paddingLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -705,7 +709,9 @@
                         android:gravity="center_vertical"
                         android:hint="请输入标题"
                         android:paddingLeft="10dp"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -884,14 +890,15 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:layout_marginTop="1dp"
+                    android:layout_marginBottom="2dp"
                     android:background="@color/white"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="100dp"
-                        android:layout_height="40dp"
+                        android:layout_height="120dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
                         android:text="商品详情"
@@ -901,12 +908,13 @@
                     <EditText
                         android:id="@+id/et_release_mall_spxq"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:hint="请输入详情"
                         android:paddingLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:textSize="16sp" />
                 </LinearLayout>
 

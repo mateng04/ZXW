@@ -792,6 +792,7 @@ public class AdvertisingReleaseActivity extends AppCompatActivity implements Vie
                             sp_setting.put("gudingyue3",settingBean.getGudingyue3());
                             sp_setting.put("gudingyue6",settingBean.getGudingyue6());
                             sp_setting.put("gudingyue12",settingBean.getGudingyue12());
+                            sp_setting.put("putongfabu",settingBean.getPutongfabu());
                             sp_setting.put("shopfabu",settingBean.getShopfabu());
                             sp_setting.put("tel1",settingBean.getTel1());
                             sp_setting.put("shopyajin",settingBean.getShopyajin());

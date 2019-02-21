@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,12 +75,14 @@ public class VIPMemberActivity extends AppCompatActivity implements View.OnClick
 
     private List<String> zffsList;
     ArrayAdapter<String> zffsAdapter;
-    String zhiffs;
+    String zhiffs = "微信";
 
     Button bt_vip_member_back;
     TextView tv_vip_member_isshow;
     TextView tv_vip_member_dqzh;
-    Spinner sp_vip_member_ktyf,sp_vip_member_czfs;
+    Spinner sp_vip_member_ktyf;
+//    Spinner sp_vip_member_czfs;
+    RadioGroup rg_vip_order;
     Button bt_vip_member_xyb;
 
     static int DATA_OK = 9000;
@@ -200,7 +203,7 @@ public class VIPMemberActivity extends AppCompatActivity implements View.OnClick
         tv_vip_member_isshow = (TextView) findViewById(R.id.tv_vip_member_isshow);
         tv_vip_member_dqzh = (TextView) findViewById(R.id.tv_vip_member_dqzh);
         sp_vip_member_ktyf = (Spinner) findViewById(R.id.sp_vip_member_ktyf);
-        sp_vip_member_czfs = (Spinner) findViewById(R.id.sp_vip_member_czfs);
+//        sp_vip_member_czfs = (Spinner) findViewById(R.id.sp_vip_member_czfs);
 
         bt_vip_member_xyb = (Button)findViewById(R.id.bt_vip_member_xyb);
         bt_vip_member_xyb.setOnClickListener(this);
@@ -244,19 +247,36 @@ public class VIPMemberActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-        zffsList = new ArrayList<>();
-        zffsList.add("微信");
-        zffsList.add("支付宝");
-        zffsAdapter =new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,zffsList);
-        sp_vip_member_czfs.setAdapter(zffsAdapter);
-        //工作经验
-        sp_vip_member_czfs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//        zffsList = new ArrayList<>();
+//        zffsList.add("微信");
+//        zffsList.add("支付宝");
+//        zffsAdapter =new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,zffsList);
+//        sp_vip_member_czfs.setAdapter(zffsAdapter);
+//        //工作经验
+//        sp_vip_member_czfs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                zhiffs = zffsList.get(position);
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+
+        rg_vip_order = (RadioGroup) findViewById(R.id.rg_vip_order);
+        rg_vip_order.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                zhiffs = zffsList.get(position);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.rb_vip_zfb:
+                        zhiffs = "支付宝";
+                        break;
+                    case R.id.rb_vip_wx:
+                        zhiffs = "微信";
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
