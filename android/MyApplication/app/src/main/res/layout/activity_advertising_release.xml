@@ -406,16 +406,40 @@
                 android:textSize="12sp"
                 android:textColor="@color/red"
                 android:text="温馨提示"/>
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="30dp"
-                android:layout_toRightOf="@+id/tv_registration_open_month"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:text="@string/ggfb_tishi"/>
+                android:text="@string/ggfb_tishi1"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/ggfb_tishi2"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_rele_ad_cz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical"
+                    android:text="充值"
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
         </LinearLayout>
 

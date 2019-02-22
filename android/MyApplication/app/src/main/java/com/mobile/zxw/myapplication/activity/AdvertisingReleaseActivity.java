@@ -66,6 +66,8 @@ public class AdvertisingReleaseActivity extends AppCompatActivity implements Vie
     //加载对话框
     private Dialog mLoadingDialog;
 
+    TextView tv_rele_ad_cz;     //充值
+
     String sessionID;
     String userid;
     OkHttpClient okHttpClient;
@@ -234,6 +236,9 @@ public class AdvertisingReleaseActivity extends AppCompatActivity implements Vie
         bt_release_ad_back.setOnClickListener(this);
         bt_release_ad_fbgg = (Button)findViewById(R.id.bt_release_ad_fbgg);
         bt_release_ad_fbgg.setOnClickListener(this);
+
+        tv_rele_ad_cz = (TextView) findViewById(R.id.tv_rele_ad_cz);
+        tv_rele_ad_cz.setOnClickListener(this);
 
         initImagePicker();
 
@@ -421,6 +426,9 @@ public class AdvertisingReleaseActivity extends AppCompatActivity implements Vie
                 break;
             case R.id.bt_release_ad_back :
                 finish();
+                break;
+            case R.id.tv_rele_ad_cz :
+                startActivity(new Intent(AdvertisingReleaseActivity.this, OnlineRechargeActivity.class));
                 break;
             default:
                 break;
