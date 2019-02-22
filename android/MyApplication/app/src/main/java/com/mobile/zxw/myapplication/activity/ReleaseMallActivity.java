@@ -117,6 +117,8 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
 
     int type;   //0正信商城    1微商专区
     String xxid;
+    String hyjb = "";   //  普通   VIP
+    String shopfabu = "0";
 
     Spinner sp_release_mall_splx;
     ArrayAdapter<String> splxAdapter;
@@ -274,6 +276,12 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
         userid = (String) sharedPreferencesHelper.getSharedPreference("userid", "");
 
         xxid = getIntent().getStringExtra("xxid");
+
+        //会员级别
+        hyjb = (String) sharedPreferencesHelper.getSharedPreference("hyjb", "");
+
+        sp_setting = new SharedPreferencesHelper(mContext, "setting");
+        shopfabu = (String) sp_setting.getSharedPreference("shopfabu", "0");
 
         showDialog("正在加载数据");
 
@@ -451,6 +459,18 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
 
         tv_release_mall_cz = (TextView) findViewById(R.id.tv_release_mall_cz);
         tv_release_mall_cz.setOnClickListener(this);
+
+        if("".equals(hyjb)){
+            if(!"".equals(shopfabu) && !"0".equals(shopfabu)){
+                bt_release_mall_fbsp.setText("发布招聘(发布信息将扣除"+shopfabu+"元)");
+            }
+        }else if("普通".equals(hyjb)){
+            if(!"".equals(shopfabu) && !"0".equals(shopfabu)){
+                bt_release_mall_fbsp.setText("发布招聘(发布信息将扣除"+shopfabu+"元)");
+            }
+        }else if("VIP".equals(hyjb)){
+            bt_release_mall_fbsp.setText("发布招聘");
+        }
 
         setAdapter();
         setAdapterOnItemClick();
@@ -1123,8 +1143,7 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
             List allList2 = gson.fromJson(data_all2, type);
             allList.addAll(allList2);
 
-            sp_setting = new SharedPreferencesHelper(
-                    mContext, "setting");
+
             gudingyue = (String) sp_setting.getSharedPreference("gudingyue", "");
             gudingyue3 = (String) sp_setting.getSharedPreference("gudingyue3", "");
             gudingyue6 = (String) sp_setting.getSharedPreference("gudingyue6", "");
@@ -1549,11 +1568,11 @@ public class ReleaseMallActivity extends AppCompatActivity implements View.OnCli
                         }else if(code == 1){
                             handler.sendEmptyMessage(FB_STATE1);
                         }else if(code == 2){
-                            handler.sendEmptyMessage(FB_STATE3);
+                            handler.sendEmptyMessage(FB_STATE2);
                         }else if(code == 3){
-                            handler.sendEmptyMessage(FB_STATE4);
+                            handler.sendEmptyMessage(FB_STATE3);
                         }else if(code == 4){
-                            handler.sendEmptyMessage(FB_STATE5);
+                            handler.sendEmptyMessage(FB_STATE4);
                         }else if(code == 5){
                             handler.sendEmptyMessage(FB_STATE5);
                         }

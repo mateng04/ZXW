@@ -1007,10 +1007,10 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
             Toast.makeText(mContext,"招聘人数不能为空",Toast.LENGTH_SHORT).show();
             return;
         }
-        if("".equals(zwms)){
-            Toast.makeText(mContext,"职位描述不能为空",Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if("".equals(zwms)){
+//            Toast.makeText(mContext,"职位描述不能为空",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         showDialog("正在提交数据");
 
         System.out.println("Select1-"+Select1+"Select2-"+Select2+"Select3-"+Select3+"Select4-"+Select4);
@@ -1195,10 +1195,10 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
             Toast.makeText(mContext,"薪资不能为空",Toast.LENGTH_SHORT).show();
             return;
         }
-        if("".equals(zwms)){
-            Toast.makeText(mContext,"职位描述不能为空",Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if("".equals(zwms)){
+//            Toast.makeText(mContext,"职位描述不能为空",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         showDialog("正在提交数据");
 
