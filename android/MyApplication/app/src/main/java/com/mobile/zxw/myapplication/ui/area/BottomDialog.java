@@ -72,6 +72,7 @@ public class BottomDialog extends Dialog {
                         if (resultCallBack != null) {
                             resultCallBack.onResult(currentMap);
                             dismiss();
+                            return;
                         }
                     }else{
                         Toast.makeText(context,"请选择城市",Toast.LENGTH_SHORT).show();

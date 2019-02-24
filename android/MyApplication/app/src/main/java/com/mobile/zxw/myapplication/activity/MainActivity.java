@@ -49,6 +49,7 @@ import com.mobile.zxw.myapplication.myinterface.OnTabActivityResultListener;
 import com.mobile.zxw.myapplication.ui.area.AreaBean;
 import com.mobile.zxw.myapplication.ui.area.BottomDialog;
 import com.mobile.zxw.myapplication.until.ListenerManager;
+import com.mobile.zxw.myapplication.until.ScreenManager;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
 import com.umeng.socialize.ShareAction;
@@ -73,6 +74,9 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IListener, View.OnClickListener {
+
+    static int onPageSelected = 0;
+    String cityName = "";
 
     Toolbar toolbar;
     TextView tv_toolbar;
@@ -162,6 +166,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ScreenManager.getScreenManager().pushActivity(this);
         if(okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(new LogInterceptor()).build();
@@ -270,10 +275,11 @@ public class MainActivity extends AppCompatActivity
         } else {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 //弹出提示，可以有多种方式
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
                 return;
             }
+            ScreenManager.getScreenManager().popAllActivityExceptOne(MainActivity.class);
             super.onBackPressed();
         }
     }
@@ -504,8 +510,34 @@ public class MainActivity extends AppCompatActivity
             }
             @Override
             public void onPageSelected(int position) {
-                System.out.println("onPageSelected----");
+                System.out.println("onPageSelected----"+position);
+                System.out.println("mViewPager.getCurrentItem()----"+mViewPager.getCurrentItem());
+                onPageSelected= position;
                 switch (mViewPager.getCurrentItem()) {
+                    case 0:
+                        Activity hmePageActivity = mactivityManager.getActivity("HomePageActivity");
+                        if(hmePageActivity != null ){
+                            ((HomePageActivity)hmePageActivity ).onPageRefreshData(cityName,position);
+                        }
+                        break;
+                    case 1:
+                        Activity recruitPageActivity = mactivityManager.getActivity("RecruitPageActivity");
+                        if(recruitPageActivity != null ){
+                            ((RecruitPageActivity)recruitPageActivity ).onPageRefreshData(cityName,position);
+                        }
+                        break;
+                    case 2:
+                        Activity jobPageActivity = mactivityManager.getActivity("JobPageActivity");
+                        if(jobPageActivity != null ){
+                            ((JobPageActivity)jobPageActivity ).onPageRefreshData(cityName,position);
+                        }
+                        break;
+                    case 3:
+                        Activity mallPageActivity = mactivityManager.getActivity("MallPageActivity");
+                        if(mallPageActivity != null ){
+                            ((MallPageActivity)mallPageActivity ).onPageRefreshData(cityName,position);
+                        }
+                        break;
                     case 4:
                         Activity advertisingManageActivity = mactivityManager.getActivity("AdvertisingManageActivity");
                         if(advertisingManageActivity != null ){
@@ -529,7 +561,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void notifyAllActivity(int tag,String str) {
+    public void notifyAllActivity(int tag,String str,String city) {
 
         if(tag == 0 ){
             if ("more_zp".equals(str)) {
@@ -674,11 +706,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        ListenerManager.getInstance().unRegisterListener(this);
+        ListenerManager.getInstance().unALLRegisterListener();
         super.onDestroy();
     }
 
     public void parserData(Map<Integer, AreaBean> currentMap) {
+        System.out.println("parserData--------------------parserData----");
+        System.out.println("");
         shengID = "";
         shiID = "";
         quxianID = "";
@@ -706,7 +740,8 @@ public class MainActivity extends AppCompatActivity
         sharedPreferencesHelper.put("quxianID", quxianID);
         sharedPreferencesHelper.put("xiangzhenID", xiangzhenID);
 
-        ListenerManager.getInstance().sendBroadCast(1,shengID+"-"+shiID+"-"+quxianID+"-"+xiangzhenID);
+        cityName = names.toString();
+        ListenerManager.getInstance().sendBroadCast(1,shengID+"-"+shiID+"-"+quxianID+"-"+xiangzhenID,cityName);
 
         tv_city_name.setText(String.format("%s", names.toString()));
     }
@@ -715,6 +750,11 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 获取当前活动的Activity实例
 //        Activity subActivity = mactivityManager.getCurrentActivity();
+
+        System.out.println("requestCode----"+requestCode);
+        System.out.println("resultCode----"+resultCode);
+        System.out.println("data----"+data);
+
         Activity subActivity = mactivityManager.getActivity("MallPageActivity");
 
         //判断是否实现返回值接口

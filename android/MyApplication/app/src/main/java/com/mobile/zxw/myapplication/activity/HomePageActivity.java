@@ -42,6 +42,7 @@ import com.mobile.zxw.myapplication.jsonEntity.EntityHomeShop;
 import com.mobile.zxw.myapplication.myinterface.IListener;
 import com.mobile.zxw.myapplication.ui.GlideImageLoader;
 import com.mobile.zxw.myapplication.until.ListenerManager;
+import com.mobile.zxw.myapplication.until.ScreenManager;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.mobile.zxw.myapplication.until.Utils;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
@@ -63,7 +64,10 @@ import okhttp3.Response;
 
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener, IListener,  HomeSCAdapter.OnItemClickListener {
 
+    static String cityName = "";
+
     PullRefreshLayout swipeRefreshLayout;
+    PullRefreshLayout.OnRefreshListener onRefreshListener;
 
     Context mContext = null;
     Banner banner;
@@ -218,7 +222,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
+        ScreenManager.getScreenManager().pushActivity(this);
         mContext = HomePageActivity.this;
         if(okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
@@ -295,16 +299,16 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.more_zp:
                 //发送广播通知所有注册该接口的监听器
-                ListenerManager.getInstance().sendBroadCast(0,"more_zp");
+                ListenerManager.getInstance().sendBroadCast(0,"more_zp","");
                 break;
             case R.id.more_qz:
-                ListenerManager.getInstance().sendBroadCast(0,"more_qz");
+                ListenerManager.getInstance().sendBroadCast(0,"more_qz","");
                 break;
             case R.id.more_sc:
-                ListenerManager.getInstance().sendBroadCast(0,"more_sc");
+                ListenerManager.getInstance().sendBroadCast(0,"more_sc","");
                 break;
             case R.id.more_wszq:
-                ListenerManager.getInstance().sendBroadCast(0,"more_wszq");
+                ListenerManager.getInstance().sendBroadCast(0,"more_wszq","");
                 break;
 
             default:
@@ -419,14 +423,15 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 
         swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
-        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+
+        onRefreshListener = new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // start refresh
                 isBlockedScrollView = true;
                 initData();
             }
-        });
+        };
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -447,9 +452,23 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    public void onPageRefreshData(String city,int onPageSelected){
+        System.out.println("city--"+city+"--onPageSelected--"+onPageSelected);
+        System.out.println("cityName--"+cityName);
+        if(!city.equals(cityName) && onPageSelected == 0){
+            cityName = city;
+            if(onRefreshListener != null){
+                System.out.println("onRefreshListener--------------------onRefreshListener----");
+                swipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh();
+            }
+        }
+    }
+
     @Override
-    public void notifyAllActivity(int tag,String str) {
+    public void notifyAllActivity(int tag,String str,String city) {
         if(tag == 1){
+
             shengId = "";
             chengshiId = "";
             quxianId = "";
@@ -471,10 +490,23 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
                 xiangzhenId = ids[3];
             }
 
-            jobQuanZhiTile();
-            getAdvertisementData();
-            hrQuanZhiTile();
-            shopTile();
+            System.out.println("notifyAllActivity--------------------HomePage----");
+            System.out.println("city--"+city+"--onPageSelected--"+MainActivity.onPageSelected);
+            System.out.println("cityName--"+cityName);
+            if(!city.equals(cityName) && MainActivity.onPageSelected == 0){
+                cityName = city;
+                if(onRefreshListener != null){
+                    System.out.println("onRefreshListener--------------------onRefreshListener----");
+                    swipeRefreshLayout.setRefreshing(true);
+                    onRefreshListener.onRefresh();
+                }
+            }
+
+
+//            jobQuanZhiTile();
+//            getAdvertisementData();
+//            hrQuanZhiTile();
+//            shopTile();
         }
         System.out.println("homepage--"+shengId+"-"+chengshiId+"-"+quxianId+"-"+xiangzhenId);
     }

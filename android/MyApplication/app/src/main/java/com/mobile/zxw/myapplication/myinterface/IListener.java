@@ -9,5 +9,5 @@ package com.mobile.zxw.myapplication.myinterface;
  */
 public interface IListener
 {
-    void notifyAllActivity(int tag,String str);
+    void notifyAllActivity(int tag,String str,String city);
 }

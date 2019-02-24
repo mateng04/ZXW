@@ -427,7 +427,7 @@ public class OnlineRechargeActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void notifyAllActivity(int tag, String str) {
+    public void notifyAllActivity(int tag, String str,String city) {
         if(tag == 100){
             Toast.makeText(mContext,"支付成功",Toast.LENGTH_SHORT).show();
         }else if(tag == 101){

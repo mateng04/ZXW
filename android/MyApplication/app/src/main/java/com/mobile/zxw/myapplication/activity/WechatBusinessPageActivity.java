@@ -230,7 +230,7 @@ public class WechatBusinessPageActivity extends AppCompatActivity implements Loa
     }
 
     @Override
-    public void notifyAllActivity(int tag,String str) {
+    public void notifyAllActivity(int tag,String str,String city) {
         if(tag == 1){
             shengId = "";
             chengshiId = "";
@@ -255,6 +255,8 @@ public class WechatBusinessPageActivity extends AppCompatActivity implements Loa
             currtPage = 0;
             countPage = 0;
             lv_wechat_sc.cancleAllDataSuccess();
+
+            System.out.println("notifyAllActivity--------------------wechatbusi----");
             getAdvertisementData();
             getWechatData();
         }

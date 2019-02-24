@@ -42,6 +42,7 @@ import com.mobile.zxw.myapplication.myinterface.OnTabActivityResultListener;
 import com.mobile.zxw.myapplication.ui.GlideImageLoader;
 import com.mobile.zxw.myapplication.ui.LoadListView;
 import com.mobile.zxw.myapplication.until.ListenerManager;
+import com.mobile.zxw.myapplication.until.ScreenManager;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.mobile.zxw.myapplication.until.Utils;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
@@ -67,7 +68,9 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
     private static final int REQUEST_CODE = 100;//请求码
     private Context context = null;
 
+    static String cityName = "";
     PullRefreshLayout swipeRefreshLayout;
+    PullRefreshLayout.OnRefreshListener onRefreshListener;
     static boolean isBlockedScrollView = false;
 
     TextView tv_mall_page_splxsz,tv_mall_page_header_splxsz;
@@ -222,7 +225,7 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mall_page);
-
+        ScreenManager.getScreenManager().pushActivity(this);
         context = MallPageActivity.this;
         if(okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
@@ -285,6 +288,12 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
         super.onStop();
         //结束轮播
         banner.stopAutoPlay();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ListenerManager.getInstance().unRegisterListener(this);
+        super.onDestroy();
     }
 
     public void initView(){
@@ -414,10 +423,9 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
 
         swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.mall_swipeRefreshLayout);
         swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
-        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        onRefreshListener = new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // start refresh
                 //先取消加载完成设置
                 lv_mall_sc.cancleAllDataSuccess();
                 countPage = 0;
@@ -425,15 +433,16 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
 
                 if("0".equals(type)){
                     getAdvertisementData("5");
+                    getMallData();
                 }else if("1".equals(type)){
                     getAdvertisementData("6");
+                    getWechatData();
                 }
-
-                getMallData();
 
                 isBlockedScrollView = true;
             }
-        });
+        };
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -501,6 +510,17 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
 
         getAdvertisementData("5");
         getMallData();
+    }
+
+    public void onPageRefreshData(String city,int onPageSelected){
+        if(!city.equals(cityName) && onPageSelected == 3){
+            cityName = city;
+            if(onRefreshListener != null){
+                System.out.println("onRefreshListener--------------------onRefreshListener----");
+                swipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh();
+            }
+        }
     }
 
     @Override
@@ -751,7 +771,7 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
     }
 
     @Override
-    public void notifyAllActivity(int tag,String str) {
+    public void notifyAllActivity(int tag,String str,String city) {
         if(tag == 1){
             shengId = "";
             chengshiId = "";
@@ -773,20 +793,33 @@ public class MallPageActivity extends AppCompatActivity implements  LoadListView
                 quxianId = ids[2];
                 xiangzhenId = ids[3];
             }
-            if("0".equals(type)){
-                getAdvertisementData("5");
-            }else if("1".equals(type)){
-                getAdvertisementData("6");
+
+            System.out.println("notifyAllActivity--------------------mallpage----");
+
+//            if("0".equals(type)){
+//                getAdvertisementData("5");
+//            }else if("1".equals(type)){
+//                getAdvertisementData("6");
+//            }
+
+//            currtPage = 0;
+//            countPage = 0;
+//            lv_mall_sc.cancleAllDataSuccess();
+
+            if(!city.equals(cityName) && MainActivity.onPageSelected == 3){
+                cityName = city;
+                if(onRefreshListener != null){
+                    System.out.println("onRefreshListener--------------------onRefreshListener----");
+                    swipeRefreshLayout.setRefreshing(true);
+                    onRefreshListener.onRefresh();
+                }
             }
 
-            currtPage = 0;
-            countPage = 0;
-            lv_mall_sc.cancleAllDataSuccess();
-            if("0".equals(type)){
-                getMallData();
-            }else if("1".equals(type)){
-                getWechatData();
-            }
+//            if("0".equals(type)){
+//                getMallData();
+//            }else if("1".equals(type)){
+//                getWechatData();
+//            }
 
         }
         System.out.println("jobpage--"+shengId+"-"+chengshiId+"-"+quxianId+"-"+xiangzhenId);

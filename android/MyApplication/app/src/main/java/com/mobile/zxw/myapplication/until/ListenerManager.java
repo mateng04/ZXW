@@ -48,13 +48,23 @@ public class ListenerManager {
     }
 
     /**
+     * 注销监听
+     */
+    public void unALLRegisterListener()
+    {
+        for(IListener iListener:iListenerList){
+            iListenerList.remove(iListener);
+        }
+    }
+
+    /**
      * 发送广播
      */
-    public void sendBroadCast(int tag,String str)
+    public void sendBroadCast(int tag,String str,String city)
     {
         for (IListener iListener : iListenerList)
         {
-            iListener.notifyAllActivity(tag,str);
+            iListener.notifyAllActivity(tag,str,city);
         }
     }
 }

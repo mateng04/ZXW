@@ -41,6 +41,7 @@ import com.mobile.zxw.myapplication.myinterface.IListener;
 import com.mobile.zxw.myapplication.ui.GlideImageLoader;
 import com.mobile.zxw.myapplication.ui.LoadListView;
 import com.mobile.zxw.myapplication.until.ListenerManager;
+import com.mobile.zxw.myapplication.until.ScreenManager;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.mobile.zxw.myapplication.until.Utils;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
@@ -64,7 +65,9 @@ import okhttp3.Response;
 public class JobPageActivity extends AppCompatActivity implements LoadListView.IloadInterface , View.OnClickListener, IListener {
     private Context mContext = null;
 
+    static String cityName = "";
     PullRefreshLayout swipeRefreshLayout;
+    PullRefreshLayout.OnRefreshListener onRefreshListener;
     static boolean isBlockedScrollView = false;
 
     private boolean flag = true;
@@ -212,7 +215,7 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_page);
-
+        ScreenManager.getScreenManager().pushActivity(this);
         mContext = JobPageActivity.this;
         if(okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
@@ -244,6 +247,12 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
         super.onStop();
         //结束轮播
         banner.stopAutoPlay();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ListenerManager.getInstance().unRegisterListener(this);
+        super.onDestroy();
     }
 
     @Override
@@ -484,10 +493,9 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
 
         swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.job_swipeRefreshLayout);
         swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
-        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        onRefreshListener = new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // start refresh
                 //先取消加载完成设置
                 lv_job_page.cancleAllDataSuccess();
                 countPage = 0;
@@ -498,7 +506,8 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
 
                 isBlockedScrollView = true;
             }
-        });
+        };
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -538,8 +547,19 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
 
     }
 
+    public void onPageRefreshData(String city,int onPageSelected){
+        if(!city.equals(cityName) && onPageSelected == 2){
+            cityName = city;
+            if(onRefreshListener != null){
+                System.out.println("onRefreshListener--------------------onRefreshListener----");
+                swipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh();
+            }
+        }
+    }
+
     @Override
-    public void notifyAllActivity(int tag,String str) {
+    public void notifyAllActivity(int tag,String str,String city) {
         if(tag == 1){
             shengId = "";
             chengshiId = "";
@@ -561,13 +581,23 @@ public class JobPageActivity extends AppCompatActivity implements LoadListView.I
                 quxianId = ids[2];
                 xiangzhenId = ids[3];
             }
+            System.out.println("notifyAllActivity--------------------jobPage----");
+//            list_qzzp.clear();
+//            lv_job_page.cancleAllDataSuccess();
+//            countPage = 0;
+//            currtPage = 0;
 
-            list_qzzp.clear();
-            lv_job_page.cancleAllDataSuccess();
-            countPage = 0;
-            currtPage = 0;
-            getAdvertisementData();
-            getjobData(type);
+            if(!city.equals(cityName) && MainActivity.onPageSelected == 2){
+                cityName = city;
+                if(onRefreshListener != null){
+                    System.out.println("onRefreshListener--------------------onRefreshListener----");
+                    swipeRefreshLayout.setRefreshing(true);
+                    onRefreshListener.onRefresh();
+                }
+            }
+
+//            getAdvertisementData();
+//            getjobData(type);
         }
         System.out.println("jobpage--"+shengId+"-"+chengshiId+"-"+quxianId+"-"+xiangzhenId);
     }

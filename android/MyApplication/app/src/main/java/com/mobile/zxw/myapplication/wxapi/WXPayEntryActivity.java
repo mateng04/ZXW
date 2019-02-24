@@ -51,13 +51,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
             switch(baseResp.errCode){
                 case 0:
-                    ListenerManager.getInstance().sendBroadCast(100,"支付成功");
+                    ListenerManager.getInstance().sendBroadCast(100,"支付成功","");
                     break;
                 case -1:
-                    ListenerManager.getInstance().sendBroadCast(101,"支付错误");
+                    ListenerManager.getInstance().sendBroadCast(101,"支付错误","");
                     break;
                 case -2:
-                    ListenerManager.getInstance().sendBroadCast(102,"用户取消");
+                    ListenerManager.getInstance().sendBroadCast(102,"用户取消","");
                     break;
                 default:
 

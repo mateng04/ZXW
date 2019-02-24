@@ -42,6 +42,7 @@ import com.mobile.zxw.myapplication.myinterface.IListener;
 import com.mobile.zxw.myapplication.ui.GlideImageLoader;
 import com.mobile.zxw.myapplication.ui.LoadListView;
 import com.mobile.zxw.myapplication.until.ListenerManager;
+import com.mobile.zxw.myapplication.until.ScreenManager;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.mobile.zxw.myapplication.until.Utils;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
@@ -65,7 +66,9 @@ import okhttp3.Response;
 public class RecruitPageActivity extends AppCompatActivity implements LoadListView.IloadInterface, View.OnClickListener, IListener {
     private Context mContext = null;
 
+    static String cityName = "";
     PullRefreshLayout swipeRefreshLayout;
+    PullRefreshLayout.OnRefreshListener onRefreshListener;
     static boolean isBlockedScrollView = false;
 
     private boolean flag = true;
@@ -217,7 +220,7 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recruit_page);
-
+        ScreenManager.getScreenManager().pushActivity(this);
         mContext = RecruitPageActivity.this;
         if(okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
@@ -249,6 +252,12 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
         super.onStop();
         //结束轮播
         banner.stopAutoPlay();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ListenerManager.getInstance().unRegisterListener(this);
+        super.onDestroy();
     }
 
     @Override
@@ -499,7 +508,8 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
 
         swipeRefreshLayout = (PullRefreshLayout)findViewById(R.id.recruit_swipeRefreshLayout);
         swipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
-        swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+
+        onRefreshListener = new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // start refresh
@@ -512,7 +522,8 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
 
                 isBlockedScrollView = true;
             }
-        });
+        };
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -550,8 +561,19 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
 
     }
 
+    public void onPageRefreshData(String city,int onPageSelected){
+        if(!city.equals(cityName) && onPageSelected == 1){
+            cityName = city;
+            if(onRefreshListener != null){
+                System.out.println("onRefreshListener--------------------onRefreshListener----");
+                swipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh();
+            }
+        }
+    }
+
     @Override
-    public void notifyAllActivity(int tag,String str) {
+    public void notifyAllActivity(int tag,String str,String city) {
         if(tag == 1){
             shengId = "";
             chengshiId = "";
@@ -573,13 +595,23 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
                 quxianId = ids[2];
                 xiangzhenId = ids[3];
             }
+            System.out.println("notifyAllActivity--------------------recruitpage----");
+//            list_qzzp.clear();
+//            lv_recruit_page.cancleAllDataSuccess();
+//            countPage = 0;
+//            currtPage = 0;
 
-            list_qzzp.clear();
-            lv_recruit_page.cancleAllDataSuccess();
-            countPage = 0;
-            currtPage = 0;
-            getAdvertisementData();
-            getRecruitData(type);
+            if(!city.equals(cityName) && MainActivity.onPageSelected == 1){
+                cityName = city;
+                if(onRefreshListener != null){
+                    System.out.println("onRefreshListener--------------------onRefreshListener----");
+                    swipeRefreshLayout.setRefreshing(true);
+                    onRefreshListener.onRefresh();
+                }
+            }
+
+//            getAdvertisementData();
+//            getRecruitData(type);
         }
         System.out.println("recruitpage--"+shengId+"-"+chengshiId+"-"+quxianId+"-"+xiangzhenId);
     }
@@ -701,14 +733,10 @@ public class RecruitPageActivity extends AppCompatActivity implements LoadListVi
                     if(response.code() == 200){
                         Gson gson = new Gson();
                         Entity<List<AdvertisementBean>> result = gson.fromJson(content, new TypeToken<Entity<List<AdvertisementBean>>>() {}.getType());
-                        adList.clear();
-                        List<AdvertisementBean> list = result.getData();
-                        if(list != null && list.size() > 0 ){
-                            adList.addAll(list);
-                        }
-                        if(adList.size() > 0){
-                            handler.sendEmptyMessage(AD_OK);
-                        }
+                        adTempList = result.getData();
+                        handler.sendEmptyMessage(AD_OK);
+                    }else {
+                        handler.sendEmptyMessage(404);
                     }
                 }else {
                     handler.sendEmptyMessage(404);

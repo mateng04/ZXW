@@ -805,7 +805,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    public void notifyAllActivity(int tag, String str) {
+    public void notifyAllActivity(int tag, String str,String city) {
         if(tag == 100){
 //            Toast.makeText(mContext,"支付成功",Toast.LENGTH_SHORT).show();
             handler.sendEmptyMessage(ZF_DATA_OK);
