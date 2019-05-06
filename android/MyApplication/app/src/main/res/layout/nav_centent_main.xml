@@ -70,7 +70,8 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:clickable="true"
-        android:background="@drawable/list_view_item_bg">
+        android:background="@drawable/list_view_item_bg"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -96,7 +97,8 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:clickable="true"
-        android:background="@drawable/list_view_item_bg">
+        android:background="@drawable/list_view_item_bg"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"

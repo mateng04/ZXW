@@ -485,20 +485,20 @@ public class MainActivity extends AppCompatActivity
         mViewList.add(view1);
         mViewList.add(view2);
         mViewList.add(view3);
-        mViewList.add(view4);
+//        mViewList.add(view4);
         mViewList.add(view5);
         //添加页卡标题
         mTitleList.add("首页");
         mTitleList.add("招聘");
         mTitleList.add("求职");
-        mTitleList.add("商城");
+//        mTitleList.add("商城");
         mTitleList.add("广告");
         //添加tab选项卡，默认第一个选中
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)), true);
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(2)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(3)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(4)));
+//        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(4)));
 
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList);
         //给ViewPager设置适配器

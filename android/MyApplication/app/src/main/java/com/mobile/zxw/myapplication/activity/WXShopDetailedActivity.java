@@ -2,11 +2,18 @@ package com.mobile.zxw.myapplication.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobile.zxw.myapplication.R;
@@ -28,6 +36,9 @@ import com.mobile.zxw.myapplication.adapter.RecyclerViewNoBgAdapter;
 import com.mobile.zxw.myapplication.bean.WSShopDetailedBean;
 import com.mobile.zxw.myapplication.http.HttpUtils;
 import com.mobile.zxw.myapplication.jsonEntity.Entity;
+import com.mobile.zxw.myapplication.myinterface.MenuCommand;
+import com.mobile.zxw.myapplication.ui.CenterMenuDialog;
+import com.mobile.zxw.myapplication.ui.Menu;
 import com.mobile.zxw.myapplication.until.SharedPreferencesHelper;
 import com.parkingwang.okhttp3.LogInterceptor.LogInterceptor;
 import com.umeng.socialize.ShareAction;
@@ -37,6 +48,10 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +105,10 @@ public class WXShopDetailedActivity extends AppCompatActivity implements View.On
                     cancelDialog();
                     Toast.makeText(mContext,"获取数据失败，请重新加载",Toast.LENGTH_SHORT).show();
                     break;
+                case 2:
+                    cancelDialog();
+                    Toast.makeText(mContext,"图片已保存至ZXW文件夹",Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };
@@ -128,9 +147,24 @@ public class WXShopDetailedActivity extends AppCompatActivity implements View.On
         tv_wxshop_js = (TextView)findViewById(R.id.tv_wxshop_js);
         tv_wxshop_deatails = (TextView)findViewById(R.id.tv_wxshop_deatails);
         iv_wxshop_wxh = (TextView)findViewById(R.id.iv_wxshop_wxh);
+        iv_wxshop_wxh.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showMenu(iv_wxshop_wxh);
+                return true;
+            }
+        });
 
         iv_wxshop_zs = (ImageView)findViewById(R.id.iv_wxshop_zs);
         iv_wxshop_ewm = (ImageView)findViewById(R.id.iv_wxshop_ewm);
+        iv_wxshop_ewm.setOnClickListener(this);
+        iv_wxshop_ewm.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showEWMMenu(iv_wxshop_ewm);
+                return true;
+            }
+        });
         recycler_wxshop_deatails = (RecyclerView)findViewById(R.id.recycler_wxshop_deatails);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -244,6 +278,11 @@ public class WXShopDetailedActivity extends AppCompatActivity implements View.On
             case R.id.bt_wshop_details_share:
                 getPermission();
                 break;
+            case R.id. iv_wxshop_ewm:
+                Intent intent = new Intent(mContext, ShowImageActivity.class);
+                intent.putExtra("imgUrl",wSShopDetailedBean.getErweima());
+                startActivity(intent);
+                break;
             default:{
                 break;
             }
@@ -315,5 +354,147 @@ public class WXShopDetailedActivity extends AppCompatActivity implements View.On
     @Override
     public void onCancel(SHARE_MEDIA platform) {
         Toast.makeText(WXShopDetailedActivity.this,"分享取消",Toast.LENGTH_LONG).show();
+    }
+
+    public void showMenu(final TextView textView) {
+        //可以按照需求随意添加 中心显示的Dialog
+        CenterMenuDialog centerMenuDialog = new CenterMenuDialog(WXShopDetailedActivity.this);
+        //第一个选择条目
+        Menu copyMenu = new Menu.Builder().setCaption("复制").setMenuCommand(new MenuCommand() {
+            @Override
+            public void onClick() {
+                ClipboardManager myClipboard;
+                myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                myClipboard.setPrimaryClip(ClipData.newPlainText("content", textView.getText()));
+                Toast.makeText(WXShopDetailedActivity.this, "内容已经复制", Toast.LENGTH_SHORT).show();
+            }
+        }).build();
+        centerMenuDialog.addMenu(copyMenu);
+
+        //第二个选择条目
+        Menu themeMenu = new Menu.Builder().setCaption("取消").setMenuCommand(new MenuCommand() {
+            @Override
+            public void onClick() {
+                Toast.makeText(WXShopDetailedActivity.this, "已经取消", Toast.LENGTH_SHORT).show();
+            }
+        }).build();
+        centerMenuDialog.addMenu(themeMenu);
+
+        //显示Dialog
+        centerMenuDialog.show();
+    }
+
+
+    public void showEWMMenu(final ImageView imageView) {
+        //可以按照需求随意添加 中心显示的Dialog
+        CenterMenuDialog centerMenuDialog = new CenterMenuDialog(WXShopDetailedActivity.this);
+        //第一个选择条目
+        Menu copyMenu = new Menu.Builder().setCaption("查看图片").setMenuCommand(new MenuCommand() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(mContext, ShowImageActivity.class);
+                intent.putExtra("imgUrl",wSShopDetailedBean.getErweima());
+                startActivity(intent);
+            }
+        }).build();
+        centerMenuDialog.addMenu(copyMenu);
+
+        //第二个选择条目
+        Menu themeMenu = new Menu.Builder().setCaption("保存到相册").setMenuCommand(new MenuCommand() {
+            @Override
+            public void onClick() {
+                new getImageCacheAsyncTask(mContext).execute(HttpUtils.URL+"/"+wSShopDetailedBean.getErweima());
+            }
+        }).build();
+        centerMenuDialog.addMenu(themeMenu);
+
+        //显示Dialog
+        centerMenuDialog.show();
+    }
+
+    public class getImageCacheAsyncTask extends AsyncTask<String, Void, File> {
+        private final Context context;
+
+        public getImageCacheAsyncTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected File doInBackground(String... params) {
+            String imgUrl =  params[0];
+            try {
+                return Glide.with(context)
+                        .load(imgUrl)
+                        .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .get();
+            } catch (Exception ex) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(File result) {
+            if (result == null) {
+                return;
+            }
+            //这里得到的就是我们要的文件了，接下来是保存文件。
+            // 首先保存图片
+            File appDir = new File(Environment.getExternalStorageDirectory(), "ZXW");
+            if (!appDir.exists()) {
+                appDir.mkdir();
+            }
+            String fileName = "zxw_"+System.currentTimeMillis() + ".jpg";
+            File file = new File(appDir, fileName);
+            //最后一步就是复制文件咯
+            copy(result,file);
+
+            // 其次把文件插入到系统图库
+            String path = file.getAbsolutePath();
+            try {
+                MediaStore.Images.Media.insertImage(context.getContentResolver(), path, fileName, null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            // 最后通知图库更新
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri uri = Uri.fromFile(file);
+            intent.setData(uri);
+            context.sendBroadcast(intent);
+
+            handler.sendEmptyMessage(2);
+        }
+    }
+
+    /**
+     * 复制文件
+     *
+     * @param source 输入文件
+     * @param target 输出文件
+     */
+    public void copy(File source, File target){
+        FileInputStream fileInputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileInputStream = new FileInputStream(source);
+            fileOutputStream = new FileOutputStream(target);
+            byte[] buffer = new byte[1024];
+            while (fileInputStream.read(buffer) > 0) {
+                fileOutputStream.write(buffer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(fileInputStream != null){
+                    fileInputStream.close();
+                }
+                if(fileOutputStream != null){
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

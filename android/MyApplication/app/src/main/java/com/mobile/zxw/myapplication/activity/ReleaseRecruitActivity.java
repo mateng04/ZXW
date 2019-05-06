@@ -261,7 +261,7 @@ public class ReleaseRecruitActivity extends AppCompatActivity implements View.On
                     Toast.makeText(mContext, "余额不足无法置顶到所给时间，充值后再置顶", Toast.LENGTH_SHORT).show();
                 case 15:
                     cancelDialog();
-                    Toast.makeText(mContext, "登录超时", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "登录超时,请重新登陆", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
